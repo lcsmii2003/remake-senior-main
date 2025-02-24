@@ -113,8 +113,8 @@ export const ChooseChild: FC = () => {
     navigation.navigate("addchild");
   };
 
-  const whenGotoDetail = (id: number) => {
-    navigation.navigate("detail", { id });
+  const whenGotoDetail = (child : Child) => {
+      navigation.navigate("childdetail", { child });
   };
 
   const whenGotoAssessment = (child: Child) => {
@@ -188,13 +188,13 @@ export const ChooseChild: FC = () => {
                   <Pressable
                     key={child.child_id}
                     style={
-                      child.gender === "male"
-                        ? styles.detailsButtonBoy
-                        : styles.detailsButtonGirl
+                    child.gender === "male"
+                      ? styles.detailsButtonBoy
+                      : styles.detailsButtonGirl
                     }
-                    //onPress={() => whenGotoDetail(child.id)}
-                  >
-                    <Text style={styles.detailsText}>ดูรายละเอียด</Text>
+                    onPress={() => whenGotoDetail(child)}
+                    >
+                  <Text style={styles.detailsText}>ดูรายละเอียด</Text>
                   </Pressable>
                 </View>
               </LinearGradient>

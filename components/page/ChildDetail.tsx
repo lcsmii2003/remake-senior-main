@@ -105,9 +105,9 @@ export const ChildDetail: FC = () => {
         <ScrollView showsVerticalScrollIndicator={false}>
         {/* GM */}
         <LinearGradient
-                        colors={["#E0F6EE", "D6F1E8"] }
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 1, y: 0 }} 
+                        colors={["#fff","#E0F6EE","#D6F1E8"]}
+                        start={{ x: 0, y: 1 }}
+                        end={{ x: 1.5, y: 1 }} 
                         style={styles.detailByAssess}>
             {/* Header */}
          <View style={styles.HeaderOfAssessment}>
@@ -128,25 +128,210 @@ export const ChildDetail: FC = () => {
                 </View>
 
                 {/* ข้อ */}
-                <View>
-                <View>
-                    <Text>ข้อ</Text>
+                <View style={styles.NoHeaderContainer}>
+                <View style={styles.NoHeader}>
+                    <Text style={styles.NoHeaderText}>ข้อ</Text>
                 </View>
-                <View>
-                    <Text>00</Text>
+                <View style={styles.NoContainer}>
+                    <Text style={styles.NoText}>00</Text>
                 </View>
                 </View>
             </View>
             {/* อายุล่าสุด */}
-            <View>
-                <Text>อายุพัฒนาการล่าสุด</Text>
-            </View>
-            <View>
-                <Text>0000</Text>
+            <View style={styles.DevAgeContainer}>
+              <View style={styles.DevAgeHeader}>
+                <Text style={styles.DevAgeHeaderText}>อายุพัฒนาการล่าสุด</Text>
+              </View>
+              <View style={styles.DevAgeTextContainer}>
+                <Text style={styles.DevAgeText}>0000</Text>
+              </View>
             </View>
          </View>
          </LinearGradient>
        
+        {/* FM */}
+         <LinearGradient
+                        colors={["#fff","#E0F6EE","#D6F1E8"]}
+                        start={{ x: 0, y: 1 }}
+                        end={{ x: 1.5, y: 1 }} 
+                        style={styles.detailByAssess}>
+            {/* Header */}
+         <View style={styles.HeaderOfAssessment}>
+            <Text style={styles.HeaderOfAssessmentText}>Fine Motor(FM)</Text>
+        </View>
+        {/* Body */}
+         <View style={styles.BodyOfAssesment}>
+            {/* วันที่และข้อ*/}
+            <View style={styles.DateNoContainer}>
+                {/* วันที่ */}
+                <View style={styles.DateContainer}>
+                  <View style={styles.DateHeader}>
+                    <Text style={styles.DateHeaderText}>วันที่ประเมินล่าสุด</Text>
+                  </View>
+                  <View style={styles.DateTextContainer}>
+                    <Text style={styles.DateText}>0000</Text>
+                  </View>
+                </View>
+
+                {/* ข้อ */}
+                <View style={styles.NoHeaderContainer}>
+                <View style={styles.NoHeader}>
+                    <Text style={styles.NoHeaderText}>ข้อ</Text>
+                </View>
+                <View style={styles.NoContainer}>
+                    <Text style={styles.NoText}>00</Text>
+                </View>
+                </View>
+            </View>
+            {/* อายุล่าสุด */}
+            <View style={styles.DevAgeContainer}>
+              <View style={styles.DevAgeHeader}>
+                <Text style={styles.DevAgeHeaderText}>อายุพัฒนาการล่าสุด</Text>
+              </View>
+              <View style={styles.DevAgeTextContainer}>
+                <Text style={styles.DevAgeText}>0000</Text>
+              </View>
+            </View>
+         </View>
+         </LinearGradient>
+
+         {/* RL */}
+         <LinearGradient
+                        colors={["#fff","#E0F6EE","#D6F1E8"]}
+                        start={{ x: 0, y: 1 }}
+                        end={{ x: 1.5, y: 1 }} 
+                        style={styles.detailByAssess}>
+            {/* Header */}
+         <View style={styles.HeaderOfAssessment}>
+            <Text style={styles.HeaderOfAssessmentText}>Receptive Language(RL)</Text>
+        </View>
+        {/* Body */}
+         <View style={styles.BodyOfAssesment}>
+            {/* วันที่และข้อ*/}
+            <View style={styles.DateNoContainer}>
+                {/* วันที่ */}
+                <View style={styles.DateContainer}>
+                  <View style={styles.DateHeader}>
+                    <Text style={styles.DateHeaderText}>วันที่ประเมินล่าสุด</Text>
+                  </View>
+                  <View style={styles.DateTextContainer}>
+                    <Text style={styles.DateText}>0000</Text>
+                  </View>
+                </View>
+
+                {/* ข้อ */}
+                <View style={styles.NoHeaderContainer}>
+                <View style={styles.NoHeader}>
+                    <Text style={styles.NoHeaderText}>ข้อ</Text>
+                </View>
+                <View style={styles.NoContainer}>
+                    <Text style={styles.NoText}>00</Text>
+                </View>
+                </View>
+            </View>
+            {/* อายุล่าสุด */}
+            <View style={styles.DevAgeContainer}>
+              <View style={styles.DevAgeHeader}>
+                <Text style={styles.DevAgeHeaderText}>อายุพัฒนาการล่าสุด</Text>
+              </View>
+              <View style={styles.DevAgeTextContainer}>
+                <Text style={styles.DevAgeText}>0000</Text>
+              </View>
+            </View>
+         </View>
+         </LinearGradient>
+
+         {/* EL */}
+         <LinearGradient
+                        colors={["#fff","#E0F6EE","#D6F1E8"]}
+                        start={{ x: 0, y: 1 }}
+                        end={{ x: 1.5, y: 1 }} 
+                        style={styles.detailByAssess}>
+            {/* Header */}
+         <View style={styles.HeaderOfAssessment}>
+            <Text style={styles.HeaderOfAssessmentText}>Expressive Language(EL)</Text>
+        </View>
+        {/* Body */}
+         <View style={styles.BodyOfAssesment}>
+            {/* วันที่และข้อ*/}
+            <View style={styles.DateNoContainer}>
+                {/* วันที่ */}
+                <View style={styles.DateContainer}>
+                  <View style={styles.DateHeader}>
+                    <Text style={styles.DateHeaderText}>วันที่ประเมินล่าสุด</Text>
+                  </View>
+                  <View style={styles.DateTextContainer}>
+                    <Text style={styles.DateText}>0000</Text>
+                  </View>
+                </View>
+
+                {/* ข้อ */}
+                <View style={styles.NoHeaderContainer}>
+                <View style={styles.NoHeader}>
+                    <Text style={styles.NoHeaderText}>ข้อ</Text>
+                </View>
+                <View style={styles.NoContainer}>
+                    <Text style={styles.NoText}>00</Text>
+                </View>
+                </View>
+            </View>
+            {/* อายุล่าสุด */}
+            <View style={styles.DevAgeContainer}>
+              <View style={styles.DevAgeHeader}>
+                <Text style={styles.DevAgeHeaderText}>อายุพัฒนาการล่าสุด</Text>
+              </View>
+              <View style={styles.DevAgeTextContainer}>
+                <Text style={styles.DevAgeText}>0000</Text>
+              </View>
+            </View>
+         </View>
+         </LinearGradient>
+
+         {/* PS */}
+         <LinearGradient
+                        colors={["#fff","#E0F6EE","#D6F1E8"]}
+                        start={{ x: 0, y: 1 }}
+                        end={{ x: 1.5, y: 1 }} 
+                        style={styles.detailByAssess}>
+            {/* Header */}
+         <View style={styles.HeaderOfAssessment}>
+            <Text style={styles.HeaderOfAssessmentText}>Personal and Social(PS)</Text>
+        </View>
+        {/* Body */}
+         <View style={styles.BodyOfAssesment}>
+            {/* วันที่และข้อ*/}
+            <View style={styles.DateNoContainer}>
+                {/* วันที่ */}
+                <View style={styles.DateContainer}>
+                  <View style={styles.DateHeader}>
+                    <Text style={styles.DateHeaderText}>วันที่ประเมินล่าสุด</Text>
+                  </View>
+                  <View style={styles.DateTextContainer}>
+                    <Text style={styles.DateText}>0000</Text>
+                  </View>
+                </View>
+
+                {/* ข้อ */}
+                <View style={styles.NoHeaderContainer}>
+                <View style={styles.NoHeader}>
+                    <Text style={styles.NoHeaderText}>ข้อ</Text>
+                </View>
+                <View style={styles.NoContainer}>
+                    <Text style={styles.NoText}>00</Text>
+                </View>
+                </View>
+            </View>
+            {/* อายุล่าสุด */}
+            <View style={styles.DevAgeContainer}>
+              <View style={styles.DevAgeHeader}>
+                <Text style={styles.DevAgeHeaderText}>อายุพัฒนาการล่าสุด</Text>
+              </View>
+              <View style={styles.DevAgeTextContainer}>
+                <Text style={styles.DevAgeText}>0000</Text>
+              </View>
+            </View>
+         </View>
+         </LinearGradient>
         </ScrollView>
       </View>
 
@@ -188,8 +373,9 @@ const styles = StyleSheet.create({
   },
   midSection: {
     flex: 1,
-    width: "90%",
-    maxHeight:"60%",
+    width: "95%",
+    height: "60%",
+    alignSelf: "center",  // ใช้แทน alignItems เพื่อไม่ให้ตัดเงา
     //marginTop: 10,
     //paddingBottom: "70%",
     //paddingVertical: 20,
@@ -200,29 +386,30 @@ const styles = StyleSheet.create({
     // shadowRadius: 10,
     // elevation: 5,
     //justifyContent: "center",
-    alignItems: "center",
+    //alignItems: "center",
     //borderWidth:2,
     
   },
   detailByAssess: {
     flexDirection: "column",
-    width: "100%",
-    //marginVertical: 5,
+    width: "95%",
+    height:"auto",
+    marginHorizontal:10,
+    marginBottom: 10,
     //borderWidth: 1,
-    shadowColor: "#b5b5b5",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 5,
+    shadowColor: "#848484",
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.2,
+    shadowRadius: 15,
     elevation: 5,
     borderRadius: 20,
-    backgroundColor: "#fff",
-    // alignItems: "center",
-    // justifyContent: "center",
+    alignItems: "center",
+    justifyContent: "center",
   },
   
   HeaderOfAssessment:{
     width: "100%",
-    paddingVertical:7,
+    paddingVertical:10,
     borderTopRightRadius: 20,
     borderTopLeftRadius:20,
     borderBottomRightRadius:0,
@@ -234,7 +421,7 @@ const styles = StyleSheet.create({
   },
   HeaderOfAssessmentText:{
     color:"#fff",
-    fontSize:15,
+    fontSize:17,
     fontWeight: "bold",
     
   },
@@ -242,46 +429,52 @@ const styles = StyleSheet.create({
     flexDirection:"column",
     //borderWidth:1,
     width:370,
+    
   },
 
   DateNoContainer:{
     flexDirection:"row",
     width:"100%",
+    height:35,
     //borderWidth:1,
-    
+    marginTop:8,
   },
 
   DateContainer:{
     flexDirection:"row",
     //borderWidth:1,
-    width:"70%",
+    width:"65%",
     borderRadius:8,
-    marginTop:5,
-    marginHorizontal:5,
+    marginLeft:4,
   },
 
   DateHeader:{
-    flexDirection:"row",
+    //flexDirection:"row",
     //borderWidth:1,
     alignItems:"center",
     justifyContent:"center",
     width:"50%",
     backgroundColor:"#CAEEE1",
     borderTopRightRadius: 0,
-    borderTopLeftRadius:8,
+    borderTopLeftRadius:12,
     borderBottomRightRadius:0,
-    borderBottomLeftRadius:8,
+    borderBottomLeftRadius:12,
     
   },
   DateHeaderText:{
-    color:"#000",
+    color: "#000",
+    textAlign: "center", 
+    width: "100%", 
+    paddingVertical:7,
+    //fontWeight:"bold",
   },
+
   DateTextContainer: {
     backgroundColor: "#fff",
     width: "50%",
-    borderTopRightRadius: 8,
+    borderTopRightRadius: 12,
     borderTopLeftRadius: 0,
-    borderBottomRightRadius: 8,
+    borderBottomRightRadius: 12,
     borderBottomLeftRadius: 0,
     alignItems: "center",  // จัดให้อยู่ตรงกลางแนวนอน
     justifyContent: "center", // จัดให้อยู่ตรงกลางแนวตั้ง
@@ -292,43 +485,145 @@ const styles = StyleSheet.create({
     color: "#000",
     textAlign: "center", 
     width: "100%", 
+    paddingVertical:7, 
+    
   },
+
+  NoHeaderContainer:{
+    flexDirection:"row",
+    //backgroundColor:"#fff",
+    width:"31%",
+    borderRadius:8,
+    marginRight:4,
+    marginLeft:"auto",
+  },
+  
+  NoHeader:{
+    //borderWidth:1,
+    alignItems:"center",
+    justifyContent:"center",
+    width:"40%",
+    backgroundColor:"#CAEEE1",
+    borderTopRightRadius: 0,
+    borderTopLeftRadius:12,
+    borderBottomRightRadius:0,
+    borderBottomLeftRadius:12,
+
+  },
+  
+  NoHeaderText:{
+    color: "#000",
+    textAlign: "center", 
+    width: "100%", 
+    paddingVertical:7,
+    //fontWeight:"bold",
+  },
+
+  NoContainer:{
+    flexDirection:"row",
+    width:"60%",
+    backgroundColor:"#fff",
+    borderTopRightRadius: 12,
+    borderTopLeftRadius: 0,
+    borderBottomRightRadius: 12,
+    borderBottomLeftRadius: 0,
+    alignItems: "center",  // จัดให้อยู่ตรงกลางแนวนอน
+    justifyContent: "center", // จัดให้อยู่ตรงกลางแนวตั้ง
+  },
+
+  NoText:{
+    color: "#000",
+    textAlign: "center", 
+    width: "100%", 
+    paddingVertical:7,
+  },
+
+  DevAgeContainer:{
+    flexDirection:"row",
+    //borderWidth:1,
+    width:"98%",
+    height:35,
+    borderRadius:8,
+    marginHorizontal:4,
+    marginVertical:8,
+    //backgroundColor:"#fff",
+  },
+
+  DevAgeHeader:{
+    alignItems:"center",
+    justifyContent:"center",
+    width:"40%",
+    backgroundColor:"#CAEEE1",
+    borderTopRightRadius: 0,
+    borderTopLeftRadius:12,
+    borderBottomRightRadius:0,
+    borderBottomLeftRadius:12,
+  },
+  DevAgeHeaderText:{
+    color: "#000",
+    textAlign: "center", 
+    width: "100%", 
+    paddingVertical:7,
+    //fontWeight:"bold",
+  },
+  DevAgeTextContainer:{
+    flexDirection:"row",
+    width:"60%",
+    backgroundColor:"#fff",
+    borderTopRightRadius: 12,
+    borderTopLeftRadius: 0,
+    borderBottomRightRadius: 12,
+    borderBottomLeftRadius: 0,
+    alignItems: "center",  // จัดให้อยู่ตรงกลางแนวนอน
+    justifyContent: "center", // จัดให้อยู่ตรงกลางแนวตั้ง
+  },
+
+  DevAgeText:{
+    color: "#000",
+    textAlign: "center", 
+    width: "100%", 
+    paddingVertical:7,
+  },
+
+
+
+
 
   bottomSection: {
     flexDirection: "row",
     width: "100%",
-    paddingTop: 45,
+    paddingTop: 30,
     paddingBottom: 30,
     justifyContent: "center",
     alignItems: "center",
   },
   profileCardGirl: {
     flexDirection: "row",
-    width: 350,
+    width: "90%",
     height: 130,
     alignItems: "center",
     backgroundColor: "#ffd7e5",
     padding: 15,
     borderRadius: 30,
-    shadowColor: "#b5b5b5",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 10,
+    shadowColor: "#848484",
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.2,
+    shadowRadius: 15,
     elevation: 5,
     marginTop: 60,
     //borderWidth:2,
   },
   profileCardBoy: {
     flexDirection: "row",
-    width: 350,
+    width: "90%",
     alignItems: "center",
     backgroundColor: "#c5e5fc",
     padding: 10,
     borderRadius: 30,
-    shadowColor: "#b5b5b5",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 10,
+    shadowColor: "#848484",
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.2,
+    shadowRadius: 15,
     elevation: 5,
     marginTop: 70,
     //borderWidth:2,

@@ -53,6 +53,10 @@ export const Assessment: FC = () => {
     navigation.navigate("mainPR");
   };
 
+  const whenGotoDetail = (child : Child) => {
+        navigation.navigate("childdetail", { child });
+  };
+
   // navigate goBack
   const goBack = () => {
     navigation.goBack();
@@ -87,13 +91,13 @@ export const Assessment: FC = () => {
             <Pressable
               key={child.child_id}
               style={
-                child.gender === "male"
-                  ? styles.detailsButtonBoy
-                  : styles.detailsButtonGirl
+              child.gender === "male"
+                ? styles.detailsButtonBoy
+                : styles.detailsButtonGirl
               }
-              //onPress={() => whenGotoDetail(child.id)}
+              onPress={() => whenGotoDetail(child)}
             >
-              <Text style={styles.detailsText}>ดูรายละเอียด</Text>
+                <Text style={styles.detailsText}>ดูรายละเอียด</Text>
             </Pressable>
           </View>
         </LinearGradient>
