@@ -101,33 +101,39 @@ export const ChildDetail: FC = () => {
       </View>
 
       {/* Mid Section */}
-      {/* Mid Section */}
       <View style={styles.midSection}>
         <ScrollView showsVerticalScrollIndicator={false}>
         {/* GM */}
-        <View style={styles.childDev}>
+        <LinearGradient
+                        colors={["#E0F6EE", "D6F1E8"] }
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 0 }} 
+                        style={styles.detailByAssess}>
             {/* Header */}
-         <View>
-            <Text style={styles.childDevtext}>Gross Motor(GM)</Text>
+         <View style={styles.HeaderOfAssessment}>
+            <Text style={styles.HeaderOfAssessmentText}>Gross Motor(GM)</Text>
         </View>
         {/* Body */}
-         <View>
+         <View style={styles.BodyOfAssesment}>
             {/* วันที่และข้อ*/}
-            <View>
+            <View style={styles.DateNoContainer}>
                 {/* วันที่ */}
-                <View>
-                    <Text>วันที่ประเมินล่าสุด</Text>
+                <View style={styles.DateContainer}>
+                  <View style={styles.DateHeader}>
+                    <Text style={styles.DateHeaderText}>วันที่ประเมินล่าสุด</Text>
+                  </View>
+                  <View style={styles.DateTextContainer}>
+                    <Text style={styles.DateText}>0000</Text>
+                  </View>
                 </View>
-                <View>
-                    <Text>0000</Text>
-                </View>
+
                 {/* ข้อ */}
                 <View>
                 <View>
                     <Text>ข้อ</Text>
                 </View>
                 <View>
-                    <Text>0000</Text>
+                    <Text>00</Text>
                 </View>
                 </View>
             </View>
@@ -139,40 +145,8 @@ export const ChildDetail: FC = () => {
                 <Text>0000</Text>
             </View>
          </View>
-          
-        </View>
-        {/* FM */}
-        <Pressable style={styles.childDev} onPress={() => whenGotoFM(child)}>
-          <Image
-            source={require("../../assets/icons/FM.png")}
-            style={styles.childDevIcon}
-          />
-          <Text style={styles.childDevtext}>Fine Motor(FM)</Text>
-        </Pressable>
-        {/* RL */}
-        <Pressable style={styles.childDev} onPress={() => whenGotoRL(child)}>
-          <Image
-            source={require("../../assets/icons/RL.png")}
-            style={styles.childDevIcon}
-          />
-          <Text style={styles.childDevtext}>Receptive Language(RL)</Text>
-        </Pressable>
-        {/* EL */}
-        <Pressable style={styles.childDev} onPress={() => whenGotoEL(child)}>
-          <Image
-            source={require("../../assets/icons/EL.png")}
-            style={styles.childDevIcon}
-          />
-          <Text style={styles.childDevtext}>Expressive Language(EL)</Text>
-        </Pressable>
-        {/* PS */}
-        <Pressable style={styles.childDev} onPress={() => whenGotoPS(child)}>
-          <Image
-            source={require("../../assets/icons/PS.png")}
-            style={styles.childDevIcon}
-          />
-          <Text style={styles.childDevtext}>Personal and Social(PS)</Text>
-        </Pressable>
+         </LinearGradient>
+       
         </ScrollView>
       </View>
 
@@ -214,21 +188,112 @@ const styles = StyleSheet.create({
   },
   midSection: {
     flex: 1,
-    width: 350,
-    maxHeight:530,
+    width: "90%",
+    maxHeight:"60%",
     //marginTop: 10,
     //paddingBottom: "70%",
     //paddingVertical: 20,
-    borderRadius: 30,
+    // borderRadius: 30,
+    // shadowColor: "#b5b5b5",
+    // shadowOffset: { width: 0, height: 2 },
+    // shadowOpacity: 0.5,
+    // shadowRadius: 10,
+    // elevation: 5,
+    //justifyContent: "center",
+    alignItems: "center",
+    //borderWidth:2,
+    
+  },
+  detailByAssess: {
+    flexDirection: "column",
+    width: "100%",
+    //marginVertical: 5,
+    //borderWidth: 1,
     shadowColor: "#b5b5b5",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
-    shadowRadius: 10,
+    shadowRadius: 5,
     elevation: 5,
-    //justifyContent: "center",
-    alignItems: "center",
-    borderWidth:2,
+    borderRadius: 20,
+    backgroundColor: "#fff",
+    // alignItems: "center",
+    // justifyContent: "center",
   },
+  
+  HeaderOfAssessment:{
+    width: "100%",
+    paddingVertical:7,
+    borderTopRightRadius: 20,
+    borderTopLeftRadius:20,
+    borderBottomRightRadius:0,
+    borderBottomLeftRadius:0,
+    backgroundColor: "#8DD9BD",
+    //justifyContent: "center",
+    //borderWidth:1,
+    alignItems:"center",
+  },
+  HeaderOfAssessmentText:{
+    color:"#fff",
+    fontSize:15,
+    fontWeight: "bold",
+    
+  },
+  BodyOfAssesment:{
+    flexDirection:"column",
+    //borderWidth:1,
+    width:370,
+  },
+
+  DateNoContainer:{
+    flexDirection:"row",
+    width:"100%",
+    //borderWidth:1,
+    
+  },
+
+  DateContainer:{
+    flexDirection:"row",
+    //borderWidth:1,
+    width:"70%",
+    borderRadius:8,
+    marginTop:5,
+    marginHorizontal:5,
+  },
+
+  DateHeader:{
+    flexDirection:"row",
+    //borderWidth:1,
+    alignItems:"center",
+    justifyContent:"center",
+    width:"50%",
+    backgroundColor:"#CAEEE1",
+    borderTopRightRadius: 0,
+    borderTopLeftRadius:8,
+    borderBottomRightRadius:0,
+    borderBottomLeftRadius:8,
+    
+  },
+  DateHeaderText:{
+    color:"#000",
+  },
+  DateTextContainer: {
+    backgroundColor: "#fff",
+    width: "50%",
+    borderTopRightRadius: 8,
+    borderTopLeftRadius: 0,
+    borderBottomRightRadius: 8,
+    borderBottomLeftRadius: 0,
+    alignItems: "center",  // จัดให้อยู่ตรงกลางแนวนอน
+    justifyContent: "center", // จัดให้อยู่ตรงกลางแนวตั้ง
+    
+  },
+  
+  DateText: {
+    color: "#000",
+    textAlign: "center", 
+    width: "100%", 
+  },
+
   bottomSection: {
     flexDirection: "row",
     width: "100%",
@@ -379,30 +444,8 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
   },
-  childDev: {
-    flexDirection: "row",
-    width: "100%",
-    paddingVertical: 15,
-    marginVertical: 6,
-    //borderWidth: 1,
-    shadowColor: "#b5b5b5",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 5,
-    elevation: 5,
-    borderRadius: 20,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  childDevIcon: {
-    width: 45,
-    height: 45,
-    right: 15,
-  },
-  childDevtext: {
-    fontSize: 18,
-  },
+  
+  
   headerText: {
     fontSize: 20,
     fontWeight: "bold",

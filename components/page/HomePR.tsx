@@ -623,7 +623,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   }, */
   aspectName:{
-    color:"#fff",
     textAlign:"center",
     width: 55,
     height: 28,
@@ -633,6 +632,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius:0,
     backgroundColor: "#8DD9BD",
     justifyContent: "center",
+    borderWidth:1,
   },
   textaspectName:{
     fontSize: 16,
