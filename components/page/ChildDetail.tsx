@@ -101,6 +101,7 @@ export const ChildDetail: FC = () => {
       </View>
 
       {/* Mid Section */}
+      {/* Mid Section */}
       <View style={styles.midSection}>
         <ScrollView showsVerticalScrollIndicator={false}>
         {/* GM */}
