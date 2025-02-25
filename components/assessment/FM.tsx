@@ -271,6 +271,7 @@ export const FM: FC = () => {
     "triangleonmiddle.png": require("../../assets/assessment/Device/triangleonmiddle.png"),
     "squaretrianglecircle.png": require("../../assets/assessment/Device/squaretrianglecircle.png"),
     "smallthing.png": require("../../assets/assessment/Device/smallthing.png"),
+    //"scissorpaperline.png": require("../../assets/assessment/Device/scissorpaperline.png"),
   };
 
   const getImageSource = (imagePath: string): any => {
@@ -771,7 +772,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   deviceIcon: {
-    width: 70,
+    width: "50%",
     height: 70,
     // borderWidth: 1,
   },

@@ -254,6 +254,16 @@ export const PS: FC = () => {
     "PS26.jpg": require("../../assets/assessment/PS/PS26.jpg"),
     "PS27.jpg": require("../../assets/assessment/PS/PS27.jpg"),
 
+    "doll.png": require("../../assets/assessment/Device/doll.png"),
+    "squarehandkerchief.png": require("../../assets/assessment/Device/squarehandkerchief.png"),
+    "setB.png": require("../../assets/assessment/Device/setB.png"),
+    "setD.png": require("../../assets/assessment/Device/setD.png"),
+    "cup.png": require("../../assets/assessment/Device/cup.png"),
+    "setH.png": require("../../assets/assessment/Device/setH.png"),
+    //"toothbrushtoothpaste.png": require("../../assets/assessment/Device/toothbrushtoothpaste.png"),
+    
+
+
     /* "GM/gm-1": require("../../assets/assessment/GM/gm-3.png"),
     "GM/gm-dv-1": require("../../assets/assessment/GM/devices/gm-dv-1.png"),
     "GM/gm-2": require("../../assets/assessment/GM/gm-4.png"),
@@ -761,7 +771,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   deviceIcon: {
-    width: 70,
+    width: "50%",
     height: 70,
     // borderWidth: 1,
   },

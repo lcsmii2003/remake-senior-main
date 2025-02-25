@@ -254,6 +254,15 @@ export const EL: FC = () => {
     "EL26.jpg": require("../../assets/assessment/EL/EL26.jpg"),
     "EL27.jpg": require("../../assets/assessment/EL/EL27.jpg"),
 
+    "setE.png": require("../../assets/assessment/Device/setE.png"),
+    "sanimalfoodclothes.jpg": require("../../assets/assessment/Device/animalfoodclothes.jpg"),
+    "chickenbutterflyflower.png": require("../../assets/assessment/Device/chickenbutterflyflower.png"),
+    "doll.png": require("../../assets/assessment/Device/doll.png"),
+    "animalfoodclothes.jpg": require("../../assets/assessment/Device/animalfoodclothes.jpg"),
+    "card.png": require("../../assets/assessment/Device/card.png"),
+
+    
+
     /* "GM/gm-1": require("../../assets/assessment/GM/gm-3.png"),
     "GM/gm-dv-1": require("../../assets/assessment/GM/devices/gm-dv-1.png"),
     "GM/gm-2": require("../../assets/assessment/GM/gm-4.png"),
@@ -761,7 +770,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   deviceIcon: {
-    width: 70,
+    width: "50%",
     height: 70,
     // borderWidth: 1,
   },

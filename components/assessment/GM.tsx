@@ -259,6 +259,7 @@ export const GM: FC = () => {
     "GM26.jpg": require("../../assets/assessment/GM/GM26.jpg"),
     "GM27.jpg": require("../../assets/assessment/GM/GM27.jpg"),
     "GM28.jpg": require("../../assets/assessment/GM/GM28.jpg"),
+    
     "maracus.png": require("../../assets/assessment/Device/maracus.png"),
     "setA.png": require("../../assets/assessment/Device/setA.png"),
     "rope.png": require("../../assets/assessment/Device/rope.png"),
@@ -770,7 +771,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   deviceIcon: {
-    width: 70,
+    width: "50%",
     height: 70,
     // borderWidth: 1,
   },
