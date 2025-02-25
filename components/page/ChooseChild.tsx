@@ -234,6 +234,7 @@ const styles = StyleSheet.create({
   },
   midSection: {
     height: "70%",
+    width:"90%",
     //borderWidth: 2,
   },
   bottomSection: {
@@ -281,7 +282,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.01,
     shadowRadius: 10,
     elevation: 5,
-    width: 330,
     
   },
   profileIcon: {

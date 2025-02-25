@@ -253,7 +253,8 @@ export const UpdateProfile: FC = () => {
           style={styles.container}
         >
           {/* top section */}
-          <Text style={styles.header}></Text>
+          <View style={styles.midContainer}>
+          <Text style={styles.header}>แก้ไขโปรไฟล์</Text>
           {/* mid section */}
           <View style={styles.avtarFrame}>
             {isLoading ? (
@@ -322,27 +323,38 @@ export const UpdateProfile: FC = () => {
               />
             </View>
           </View>
-          {/* update button */}
-          <Pressable onPress={handleUpdate}>
-            <LinearGradient
-              colors={["#DDE6FF", "#FFFFFF"]}
-              style={styles.button}
-            >
-              <View>
-                <Text style={styles.buttonText}>Update Profile</Text>
-              </View>
-            </LinearGradient>
-          </Pressable>
-        </ImageBackground>
-        {/* bottom section */}
-        <View style={styles.buttonContainer}>
-          <Pressable style={styles.backButton} onPress={goBack}>
-            <Image
+          </View>
+
+          {/* bottom section */}  
+          <View style={styles.buttonContainer}>
+            {/* ปุ่ม Back */}
+            <Pressable  onPress={goBack}>
+            <View style={styles.backButton} >
+              <Image
               source={require("../../assets/icons/back.png")}
               style={styles.backIcon}
             />
+            </View>
+            </Pressable>
+
+            {/* ปุ่ม Update Profile */}
+            <Pressable onPress={handleUpdate}>
+            <View style={styles.button}>
+            <Text style={styles.buttonText}>Update Profile</Text>
+          </View>
           </Pressable>
         </View>
+        
+        
+
+        <View style={styles.deleteAccount}>
+              <Image 
+                  source={require("../../assets/icons/delete.png")}
+                  style={styles.deleteAccountIcon}
+                  resizeMode="contain"
+              />
+        </View>
+        </ImageBackground>
       </SafeAreaProvider>
     </TouchableWithoutFeedback>
   );
@@ -357,92 +369,134 @@ const styles = StyleSheet.create({
     minHeight: 750,
     // borderWidth: 3,
   },
+
+  midContainer:{
+    position:"absolute",
+    top:200,
+    alignItems:"center",
+    width:"100%",
+    height:400,
+    //borderWidth:1,
+  },
   updateContainer: {
     flex: 1,
-    borderWidth: 3,
+    borderWidth: 1,
   },
   header: {
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 16,
+    marginBottom: 40,
+    textAlign:"center",
   },
   avatar: {
     width: 100,
     height: 100,
     borderRadius: 50,
-    marginBottom: 16,
+    //marginBottom: 16,
   },
-  button: {
-    borderRadius: 20,
-    justifyContent: "center",
-    alignItems: "center",
-    width: 240,
-    height: 40,
-    marginTop: 100,
-    borderWidth: 1.5,
-    borderColor: "#000000",
-  },
-  buttonText: {
-    color: "#000",
-    fontWeight: "bold",
-  },
-  gradient: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
-  // ---------------------------------------------------------------------------------------------
-
   buttonContainer: {
-    width: "100%",
     position: "absolute",
-    bottom: 20,
-    paddingVertical: 15,
+    bottom: 230,
+    flexDirection: "row", // เรียงปุ่มแนวนอน
+    justifyContent: "space-evenly", // ระยะห่างเท่ากัน
+    alignItems: "center",
+    width: "100%", // ขยายให้เต็มจอ
+    paddingHorizontal: 20, // เพิ่ม padding
+    height: 50, // ปรับให้สูงขึ้น
+    //borderWidth:1,
+},
+
+backButton: {
+    backgroundColor: "#cce9fe",
+    padding: 10, // เพิ่มขนาด padding
+    borderRadius: 30,
+    width: 80, // ปรับให้มีขนาดที่แน่นอน
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    //borderWidth:1.5,
+    shadowColor: "#848484",
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.2,
+    shadowRadius: 15,
+    elevation: 5,
+},
+
+backIcon: {
+    width: 30,
+    height: 30,
+},
+
+button: {
+    borderRadius: 30,
     justifyContent: "center",
     alignItems: "center",
-    minHeight: 0,
-    //borderWidth: 2,
-  },
-  backButton: {
-    backgroundColor: "#cce9fe",
-    padding: 8,
-    borderRadius: 30,
-    width: "35%",
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3,
+    width: 200, // ปรับขนาดให้เหมาะสม
+    height: 50,
+    //borderWidth: 1.5,
+    borderColor: "#000000",
+    backgroundColor:"#cce9fe",
+    shadowColor: "#848484",
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.2,
+    shadowRadius: 15,
     elevation: 5,
-  },
-  backIcon: {
-    width: 35,
-    height: 35,
-  },
+},
+    
+buttonText:{
+  fontSize:16,
+},
+
+deleteAccount:{
+  //borderWidth:1,
+  width:90,
+  height:55,
+  borderRadius:30,
+  backgroundColor:"#FF8E8E",
+  position: "absolute",
+  bottom:70,
+  justifyContent:"center",
+  alignItems:"center",
+  shadowColor: "#848484",
+  shadowOffset: { width: 0, height: 5 },
+  shadowOpacity: 0.2,
+  shadowRadius: 15,
+  elevation: 5,
+},
+
+deleteAccountIcon:{
+  width:"35%",
+  marginLeft:7,
+  //height:40,
+  //borderWidth:1,
+
+},
+
   //---------------------------------------------------------------------------------------------
   //avatar
   avatarContainer: {
     position: "relative",
     bottom: "100%",
+    //borderWidth:1,
   },
   avtarFrame: {
     borderRadius: 45,
-    height: "13%",
-    // borderWidth: 2,
+    height:100,
+    //borderWidth: 2,
   },
   addIconSection: {
     position: "absolute",
     bottom: 0,
     right: 0,
-    width: 35,
-    height: 35,
+    width: 40,
+    height: 40,
     borderRadius: 20,
     alignItems: "center",
     backgroundColor: "#FFD3AB",
+    
   },
   addIcon: {
-    top: 4,
+    top:6,
     width: 27,
     height: 27,
   },
@@ -454,8 +508,8 @@ const styles = StyleSheet.create({
   input: {
     width: "80%",
     padding: 10,
-    top: 20,
-    borderWidth: 2,
+    top: 30,
+    borderWidth: 1.5,
     borderColor: "#000",
     borderRadius: 10,
     marginBottom: 12,
@@ -464,7 +518,7 @@ const styles = StyleSheet.create({
   editIconSection: {
     position: "absolute",
     right: 50, // ไอคอนอยู่ขอบขวา
-    top: 26, // ปรับให้อยู่กลางแนวตั้ง,
+    top: 38, // ปรับให้อยู่กลางแนวตั้ง,
   },
   editIcon: {
     top: 4,

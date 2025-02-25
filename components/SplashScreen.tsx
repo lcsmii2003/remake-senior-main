@@ -10,6 +10,8 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { LoadingScreenAdvice } from "../components/LoadingScreen"
+import { LoadingScreenStar } from "../components/LoadingScreen"
 
 export const SplashScreen: FC = () => {
   const navigation = useNavigation<NavigationProp<any>>();
@@ -61,10 +63,7 @@ export const SplashScreen: FC = () => {
           <View style={styles.header}>
             <Text style={styles.title}>Welcome to</Text>
             <Text style={styles.header}>DekDek</Text>
-            <Image
-              style={styles.logo}
-              source={require("../assets/logo/funny.gif")}
-            />
+            <LoadingScreenStar/>
           </View>
           <ActivityIndicator size="large" color="#ffffff" />
         </View>

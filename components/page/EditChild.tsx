@@ -547,10 +547,10 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     padding: 20,
     //borderWidth: 2,
-    shadowColor: "#000",
+    shadowColor: "#848484",
     shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 0.01,
-    shadowRadius: 10,
+    shadowOpacity: 0.2,
+    shadowRadius: 15,
     elevation: 5,
     position: "absolute",
     top: 10, // ปรับค่าตามต้องการ
@@ -616,6 +616,11 @@ const styles = StyleSheet.create({
     bottom:70,
     justifyContent:"center",
     alignItems:"center",
+    shadowColor: "#848484",
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.2,
+    shadowRadius: 15,
+    elevation: 5,
   },
 
   deleteChildIcon:{
@@ -628,7 +633,7 @@ const styles = StyleSheet.create({
 
   buttonContainer: {
     position: "absolute",
-    bottom: 180,
+    bottom: 170,
     flexDirection: "row",
     paddingHorizontal: 20,
     width: "100%",
@@ -678,6 +683,11 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     width: "25%",
     alignItems: "center",
+    shadowColor: "#848484",
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.2,
+    shadowRadius: 15,
+    elevation: 5,
   },
   submitButton: {
     backgroundColor: "#cce9fe",
@@ -687,6 +697,11 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     width: "50%",
     alignItems: "center",
+    shadowColor: "#848484",
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.2,
+    shadowRadius: 15,
+    elevation: 5,
   },
   Icon: {
     width: 30,

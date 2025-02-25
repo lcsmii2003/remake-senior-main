@@ -268,7 +268,7 @@ export const RL: FC = () => {
     "animalfoodclothes.jpg": require("../../assets/assessment/Device/animalfoodclothes.jpg"),
     "squaretrianglecircle.png": require("../../assets/assessment/Device/squaretrianglecircle.png"),
     "daynightpics.png": require("../../assets/assessment/Device/daynightpics.png"),
-    //"nitannaisuan.JPG": require("../../assets/assessment/Device/nitannaisuan.JPG"),
+    "nitannaisuan.JPG": require("../../assets/assessment/Device/nitarnnaisuan.png"),
     "woodenandpaper.png": require("../../assets/assessment/Device/woodenandpaper.png"),
 
     

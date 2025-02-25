@@ -18,6 +18,33 @@ export const LoadingScreenAdvice = () => {
   );
 };
 
+export const LoadingScreenCuteBaby = () => {
+  return (
+    <View style={styles.container}>
+      <LottieView
+        source={require("../assets/logo/lottie/cutebaby.json")}
+        autoPlay
+        loop
+        style={styles.lottie}
+      />
+    </View>
+  );
+};
+
+export const LoadingScreenStar = () => {
+  return (
+    <View style={styles.container}>
+      <LottieView
+        source={require("../assets/logo/lottie/star.json")}
+        autoPlay
+        loop
+        style={styles.lottie}
+      />
+    </View>
+  );
+};
+
+
 export const LoadingScreenBaby = () => {
   return (
     <View style={styles.container}>
@@ -53,14 +80,16 @@ export const LoadingScreenSearchfile = () => {
 const styles = StyleSheet.create({
   // === Base ===
   container: {
-    flex: 1,
+    //flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#fff",
+    //backgroundColor: "#fff",
+    
   },
   lottie: {
-    width: 250,
-    height: 250,
+    width: 100,
+    height: 100,
+    //marginTop:50,
   },
   text: {
     marginTop: 20,
@@ -77,6 +106,7 @@ const styles = StyleSheet.create({
   assessmentLottie: {
     width: 200,
     height: 200,
+    
   },
   assessmentText: {
     marginTop: 5,

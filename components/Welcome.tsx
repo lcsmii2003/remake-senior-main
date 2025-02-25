@@ -8,7 +8,7 @@ import {
   ImageBackground,
 } from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
-
+import {LoadingScreenCuteBaby} from "../components/LoadingScreen"
 export const Welcome: FC = () => {
   const navigation = useNavigation<NavigationProp<any>>();
   const whenGotoRegister = () => {
@@ -27,12 +27,14 @@ export const Welcome: FC = () => {
         <View style={styles.container}>
           <View style={styles.header}>
             <Text style={styles.title}>Welcome to</Text>
-            <Text style={styles.header}>DekDek</Text>
-            <Image
-              style={styles.logo}
-              source={require("../assets/logo/chinjung.gif")}
-            />
+            <Text style={styles.headerText}>DekDek</Text>
           </View>
+
+          <View style={styles.logo}>
+          <LoadingScreenCuteBaby/>
+          </View>
+
+          <View style={styles.bottomSection}>
           <View style={styles.buttonContainer}>
             <Pressable onPress={whenGotoLogin} style={styles.button}>
               <Text style={styles.buttonText}>SIGN IN</Text>
@@ -42,6 +44,7 @@ export const Welcome: FC = () => {
             <Pressable onPress={whenGotoRegister} style={styles.button}>
               <Text style={styles.buttonText}>SIGN UP</Text>
             </Pressable>
+          </View>
           </View>
         </View>
       </ImageBackground>
@@ -56,30 +59,57 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    height:"80%",
+    width:"100%",
     paddingHorizontal: 16,
     justifyContent: "center",
+    alignItems:"center",
+    //borderWidth:1,
+    flexDirection:"column",
   },
   header: {
-    fontSize: 24,
-    fontWeight: "bold",
+    flexDirection:"column",
+    width:200,
+    height:"auto",
+    //borderWidth:1,
     alignItems: "center",
-    marginBottom: 40,
+    position:"absolute",
+    top:310,
   },
+  
   logo: {
     width: 100,
     height: 100,
     borderRadius: 50,
+    //borderWidth:1,
+    position:"absolute",
+    bottom:410,
+    
   },
   title: {
-    fontSize: 20,
-    marginTop: 16,
+    // position:"absolute",
+    fontSize: 18,
+    marginTop: 10,
     marginBottom: 5,
+    textAlign:"center",
+    //borderWidth:1,
+  },
+    headerText:{
+      fontSize: 35,
+      fontWeight: "bold",
+      textAlign:"center",
+    },
+  bottomSection:{
+    width:"100%",
+    position:"absolute",
+    bottom:270,
   },
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     marginTop: 15,
+   // borderWidth:1,
   },
   button: {
     width: "60%",

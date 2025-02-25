@@ -1,5 +1,5 @@
 // Assessment.tsx
-import { FC } from "react";
+import React, { FC, useState,useCallback } from "react";
 import {
   ImageBackground,
   View,
@@ -8,51 +8,89 @@ import {
   Text,
   Image,
   ScrollView,
+  
 } from "react-native";
 import {
   useNavigation,
   NavigationProp,
   RouteProp,
   useRoute,
+  useFocusEffect,
+  
 } from "@react-navigation/native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
-import { Child } from "./HomePR";
+import { LoadingScreenBaby } from "../LoadingScreen";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-type AssessmentRouteProp = RouteProp<
-  { assessment: { child: Child } },
-  "assessment"
->;
+// import child value
+import { Child } from "./HomePR";
+type ChildRouteProp = RouteProp<{ assessment: { child: Child } }, "assessment">;
 
 export const ChildDetail: FC = () => {
+  // useState
   const navigation = useNavigation<NavigationProp<any>>();
-  const route = useRoute<AssessmentRouteProp>();
-  const { child } = route.params;
+  const Childroute = useRoute<ChildRouteProp>();
+  const { child } = Childroute.params;
+
+  const [loading, setLoading] = useState<boolean>(true);
+  const [assessments, setAssessments] = useState<any[]>([]); //
+
+  // ============================================================================================
+  // useEffect
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchChildDataForParent = async () => {
+        try {
+          const parent_id = await AsyncStorage.getItem("userId");
+          const token = await AsyncStorage.getItem("userToken");
+          console.log("Child ID: ", child.child_id);
+          console.log("Parent ID: ", parent_id);
+
+          if (!parent_id) {
+            console.error("Parent ID is missing.");
+            return;
+          }
+
+          // setLoading(true);
+          const response = await fetch(
+            `https://senior-test-deploy-production-1362.up.railway.app/api/assessments/assessments-child/${parent_id}/${child.child_id}`,
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          if (response.ok) {
+            const jsonResponse = await response.json();
+            const childData = jsonResponse.child || {};
+            const assessmentData = childData.assessments || [];
+
+            setAssessments(assessmentData);
+          } else {
+            console.error(
+              `Error fetching data: ${response.status} ${response.statusText}`
+            );
+          }
+        } catch (error) {
+          console.error("Error fetching child data:", error);
+        } finally {
+          // setLoading(false);
+        }
+      };
+
+      fetchChildDataForParent();
+    }, [child.child_id])
+  );
+
+  // ============================================================================================
 
   // navigate
-  const whenGotoGM = (child: Child) => {
-    navigation.navigate("gm", { child });
+  const whenGotoEditChild = (child: Child) => {
+    navigation.navigate("editchild", { child });
   };
-
-  const whenGotoFM = (child: Child) => {
-    navigation.navigate("fm", { child });
-  };
-
-  const whenGotoRL = (child: Child) => {
-    navigation.navigate("rl", { child });
-  };
-
-  const whenGotoEL = (child: Child) => {
-    navigation.navigate("el", { child });
-  };
-
-  const whenGotoPS = (child: Child) => {
-    navigation.navigate("sp", { child });
-  };
-
-  const whenGotoEditChild = (child : Child) => {
-      navigation.navigate("editchild", { child });
-    };
 
   const whenGotoHome = () => {
     navigation.navigate("mainPR");
@@ -63,6 +101,19 @@ export const ChildDetail: FC = () => {
     navigation.goBack();
   };
 
+  // ============================================================================================
+  const getAssessmentByAspect = (aspect: string) => {
+    return assessments.find((a) => a.aspect === aspect) || {};
+  };
+
+  const gmAssessment = getAssessmentByAspect("GM");
+  const fmAssessment = getAssessmentByAspect("FM");
+  const rlAssessment = getAssessmentByAspect("RL");
+  const elAssessment = getAssessmentByAspect("EL");
+  const psAssessment = getAssessmentByAspect("PS");
+
+  // ============================================================================================
+
   return (
     <ImageBackground
       source={require("../../assets/background/bg2.png")}
@@ -71,16 +122,20 @@ export const ChildDetail: FC = () => {
       {/* Top Section */}
       <View style={styles.topSection}>
         <LinearGradient
-                            key={child.child_id}
-                            colors={
-                              child.gender === "male"
-                                ? ["#fff", "#E7F6FF","#D6ECFD"]  // ไล่สีฟ้าสำหรับเด็กผู้ชาย
-                                :["#fff", "#FFDEE4","#FFBED6"]  // ไล่สีชมพูสำหรับเด็กผู้หญิง
-                            }
-                            start={{ x: 0, y: 0 }}
-                            end={{ x: 1, y: 1 }}
-                            style={child.gender === "male" ? styles.profileCardBoy : styles.profileCardGirl}
-                          >
+          key={child.child_id}
+          colors={
+            child.gender === "male"
+              ? ["#fff", "#E7F6FF", "#D6ECFD"] // ไล่สีฟ้าสำหรับเด็กผู้ชาย
+              : ["#fff", "#FFDEE4", "#FFBED6"] // ไล่สีชมพูสำหรับเด็กผู้หญิง
+          }
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={
+            child.gender === "male"
+              ? styles.profileCardBoy
+              : styles.profileCardGirl
+          }
+        >
           <Image source={{ uri: child.childPic }} style={styles.profileIcon} />
           <View style={styles.profileInfo}>
             <View style={styles.detailsName}>
@@ -107,238 +162,275 @@ export const ChildDetail: FC = () => {
       {/* Mid Section */}
       <View style={styles.midSection}>
         <ScrollView showsVerticalScrollIndicator={false}>
-        {/* GM */}
-        <LinearGradient
-                        colors={["#fff","#E0F6EE","#D6F1E8"]}
-                        start={{ x: 0, y: 1 }}
-                        end={{ x: 1.5, y: 1 }} 
-                        style={styles.detailByAssess}>
+          {/* GM */}
+          {/* // if assessments.aspect === "GM" ให้แสดงข้อมูล */}
+          <LinearGradient
+            colors={["#fff", "#E0F6EE", "#D6F1E8"]}
+            start={{ x: 0, y: 1 }}
+            end={{ x: 1.5, y: 1 }}
+            style={styles.detailByAssess}
+          >
             {/* Header */}
-         <View style={styles.HeaderOfAssessment}>
-            <Text style={styles.HeaderOfAssessmentText}>Gross Motor(GM)</Text>
-        </View>
-        {/* Body */}
-         <View style={styles.BodyOfAssesment}>
-            {/* วันที่และข้อ*/}
-            <View style={styles.DateNoContainer}>
+            <View style={styles.HeaderOfAssessment}>
+              <Text style={styles.HeaderOfAssessmentText}>Gross Motor(GM)</Text>
+            </View>
+            {/* Body */}
+            <View style={styles.BodyOfAssesment}>
+              {/* วันที่และข้อ*/}
+              <View style={styles.DateNoContainer}>
                 {/* วันที่ */}
                 <View style={styles.DateContainer}>
                   <View style={styles.DateHeader}>
-                    <Text style={styles.DateHeaderText}>วันที่ประเมินล่าสุด</Text>
+                    <Text style={styles.DateHeaderText}>
+                      วันที่ประเมินล่าสุด
+                    </Text>
                   </View>
                   <View style={styles.DateTextContainer}>
-                    <Text style={styles.DateText}>0000</Text>
+                    <Text style={styles.DateText}>
+                      {gmAssessment.assessment_date}
+                    </Text>
                   </View>
                 </View>
 
                 {/* ข้อ */}
                 <View style={styles.NoHeaderContainer}>
-                <View style={styles.NoHeader}>
+                  <View style={styles.NoHeader}>
                     <Text style={styles.NoHeaderText}>ข้อ</Text>
+                  </View>
+                  <View style={styles.NoContainer}>
+                    <Text style={styles.NoText}>
+                      {gmAssessment.assessment_details_id}
+                    </Text>
+                  </View>
                 </View>
-                <View style={styles.NoContainer}>
-                    <Text style={styles.NoText}>00</Text>
-                </View>
-                </View>
-            </View>
-            {/* อายุล่าสุด */}
-            <View style={styles.DevAgeContainer}>
-              <View style={styles.DevAgeHeader}>
-                <Text style={styles.DevAgeHeaderText}>อายุพัฒนาการล่าสุด</Text>
               </View>
-              <View style={styles.DevAgeTextContainer}>
-                <Text style={styles.DevAgeText}>0000</Text>
+              {/* อายุล่าสุด */}
+              <View style={styles.DevAgeContainer}>
+                <View style={styles.DevAgeHeader}>
+                  <Text style={styles.DevAgeHeaderText}>
+                    อายุพัฒนาการล่าสุด
+                  </Text>
+                </View>
+                <View style={styles.DevAgeTextContainer}>
+                  <Text style={styles.DevAgeText}>
+                    {/* {gmAssessment.details.age_range} */}
+                  </Text>
+                </View>
               </View>
             </View>
-         </View>
-         </LinearGradient>
-       
-        {/* FM */}
-         <LinearGradient
-                        colors={["#fff","#E0F6EE","#D6F1E8"]}
-                        start={{ x: 0, y: 1 }}
-                        end={{ x: 1.5, y: 1 }} 
-                        style={styles.detailByAssess}>
+          </LinearGradient>
+          {/* FM */}
+          {/* // if assessments.aspect === "FM" ให้แสดงข้อมูล */}
+          <LinearGradient
+            colors={["#fff", "#E0F6EE", "#D6F1E8"]}
+            start={{ x: 0, y: 1 }}
+            end={{ x: 1.5, y: 1 }}
+            style={styles.detailByAssess}
+          >
             {/* Header */}
-         <View style={styles.HeaderOfAssessment}>
-            <Text style={styles.HeaderOfAssessmentText}>Fine Motor(FM)</Text>
-        </View>
-        {/* Body */}
-         <View style={styles.BodyOfAssesment}>
-            {/* วันที่และข้อ*/}
-            <View style={styles.DateNoContainer}>
+            <View style={styles.HeaderOfAssessment}>
+              <Text style={styles.HeaderOfAssessmentText}>Fine Motor(FM)</Text>
+            </View>
+            {/* Body */}
+            <View style={styles.BodyOfAssesment}>
+              {/* วันที่และข้อ*/}
+              <View style={styles.DateNoContainer}>
                 {/* วันที่ */}
                 <View style={styles.DateContainer}>
                   <View style={styles.DateHeader}>
-                    <Text style={styles.DateHeaderText}>วันที่ประเมินล่าสุด</Text>
+                    <Text style={styles.DateHeaderText}>
+                      วันที่ประเมินล่าสุด
+                    </Text>
                   </View>
                   <View style={styles.DateTextContainer}>
-                    <Text style={styles.DateText}>0000</Text>
+                    <Text style={styles.DateText}>{fmAssessment.assessment_date}</Text>
                   </View>
                 </View>
 
                 {/* ข้อ */}
                 <View style={styles.NoHeaderContainer}>
-                <View style={styles.NoHeader}>
+                  <View style={styles.NoHeader}>
                     <Text style={styles.NoHeaderText}>ข้อ</Text>
+                  </View>
+                  <View style={styles.NoContainer}>
+                    <Text style={styles.NoText}>{fmAssessment.assessment_details_id}</Text>
+                  </View>
                 </View>
-                <View style={styles.NoContainer}>
-                    <Text style={styles.NoText}>00</Text>
-                </View>
-                </View>
-            </View>
-            {/* อายุล่าสุด */}
-            <View style={styles.DevAgeContainer}>
-              <View style={styles.DevAgeHeader}>
-                <Text style={styles.DevAgeHeaderText}>อายุพัฒนาการล่าสุด</Text>
               </View>
-              <View style={styles.DevAgeTextContainer}>
-                <Text style={styles.DevAgeText}>0000</Text>
+              {/* อายุล่าสุด */}
+              <View style={styles.DevAgeContainer}>
+                <View style={styles.DevAgeHeader}>
+                  <Text style={styles.DevAgeHeaderText}>
+                    อายุพัฒนาการล่าสุด
+                  </Text>
+                </View>
+                <View style={styles.DevAgeTextContainer}>
+                  <Text style={styles.DevAgeText}>0000</Text>
+                </View>
               </View>
             </View>
-         </View>
-         </LinearGradient>
-
-         {/* RL */}
-         <LinearGradient
-                        colors={["#fff","#E0F6EE","#D6F1E8"]}
-                        start={{ x: 0, y: 1 }}
-                        end={{ x: 1.5, y: 1 }} 
-                        style={styles.detailByAssess}>
+          </LinearGradient>
+          {/* RL */}
+          {/* // if assessments.aspect === "RL" ให้แสดงข้อมูล */}
+          <LinearGradient
+            colors={["#fff", "#E0F6EE", "#D6F1E8"]}
+            start={{ x: 0, y: 1 }}
+            end={{ x: 1.5, y: 1 }}
+            style={styles.detailByAssess}
+          >
             {/* Header */}
-         <View style={styles.HeaderOfAssessment}>
-            <Text style={styles.HeaderOfAssessmentText}>Receptive Language(RL)</Text>
-        </View>
-        {/* Body */}
-         <View style={styles.BodyOfAssesment}>
-            {/* วันที่และข้อ*/}
-            <View style={styles.DateNoContainer}>
+            <View style={styles.HeaderOfAssessment}>
+              <Text style={styles.HeaderOfAssessmentText}>
+                Receptive Language(RL)
+              </Text>
+            </View>
+            {/* Body */}
+            <View style={styles.BodyOfAssesment}>
+              {/* วันที่และข้อ*/}
+              <View style={styles.DateNoContainer}>
                 {/* วันที่ */}
                 <View style={styles.DateContainer}>
                   <View style={styles.DateHeader}>
-                    <Text style={styles.DateHeaderText}>วันที่ประเมินล่าสุด</Text>
+                    <Text style={styles.DateHeaderText}>
+                      วันที่ประเมินล่าสุด
+                    </Text>
                   </View>
                   <View style={styles.DateTextContainer}>
-                    <Text style={styles.DateText}>0000</Text>
+                    <Text style={styles.DateText}>{rlAssessment.assessment_date}</Text>
                   </View>
                 </View>
 
                 {/* ข้อ */}
                 <View style={styles.NoHeaderContainer}>
-                <View style={styles.NoHeader}>
+                  <View style={styles.NoHeader}>
                     <Text style={styles.NoHeaderText}>ข้อ</Text>
+                  </View>
+                  <View style={styles.NoContainer}>
+                    <Text style={styles.NoText}>{rlAssessment.assessment_details_id}</Text>
+                  </View>
                 </View>
-                <View style={styles.NoContainer}>
-                    <Text style={styles.NoText}>00</Text>
-                </View>
-                </View>
-            </View>
-            {/* อายุล่าสุด */}
-            <View style={styles.DevAgeContainer}>
-              <View style={styles.DevAgeHeader}>
-                <Text style={styles.DevAgeHeaderText}>อายุพัฒนาการล่าสุด</Text>
               </View>
-              <View style={styles.DevAgeTextContainer}>
-                <Text style={styles.DevAgeText}>0000</Text>
+              {/* อายุล่าสุด */}
+              <View style={styles.DevAgeContainer}>
+                <View style={styles.DevAgeHeader}>
+                  <Text style={styles.DevAgeHeaderText}>
+                    อายุพัฒนาการล่าสุด
+                  </Text>
+                </View>
+                <View style={styles.DevAgeTextContainer}>
+                  <Text style={styles.DevAgeText}>0000</Text>
+                </View>
               </View>
             </View>
-         </View>
-         </LinearGradient>
-
-         {/* EL */}
-         <LinearGradient
-                        colors={["#fff","#E0F6EE","#D6F1E8"]}
-                        start={{ x: 0, y: 1 }}
-                        end={{ x: 1.5, y: 1 }} 
-                        style={styles.detailByAssess}>
+          </LinearGradient>
+          {/* EL */}
+          {/* // if assessments.aspect === "EL" ให้แสดงข้อมูล */}
+          <LinearGradient
+            colors={["#fff", "#E0F6EE", "#D6F1E8"]}
+            start={{ x: 0, y: 1 }}
+            end={{ x: 1.5, y: 1 }}
+            style={styles.detailByAssess}
+          >
             {/* Header */}
-         <View style={styles.HeaderOfAssessment}>
-            <Text style={styles.HeaderOfAssessmentText}>Expressive Language(EL)</Text>
-        </View>
-        {/* Body */}
-         <View style={styles.BodyOfAssesment}>
-            {/* วันที่และข้อ*/}
-            <View style={styles.DateNoContainer}>
+            <View style={styles.HeaderOfAssessment}>
+              <Text style={styles.HeaderOfAssessmentText}>
+                Expressive Language(EL)
+              </Text>
+            </View>
+            {/* Body */}
+            <View style={styles.BodyOfAssesment}>
+              {/* วันที่และข้อ*/}
+              <View style={styles.DateNoContainer}>
                 {/* วันที่ */}
                 <View style={styles.DateContainer}>
                   <View style={styles.DateHeader}>
-                    <Text style={styles.DateHeaderText}>วันที่ประเมินล่าสุด</Text>
+                    <Text style={styles.DateHeaderText}>
+                      วันที่ประเมินล่าสุด
+                    </Text>
                   </View>
                   <View style={styles.DateTextContainer}>
-                    <Text style={styles.DateText}>0000</Text>
+                    <Text style={styles.DateText}>{elAssessment.assessment_date}</Text>
                   </View>
                 </View>
 
                 {/* ข้อ */}
                 <View style={styles.NoHeaderContainer}>
-                <View style={styles.NoHeader}>
+                  <View style={styles.NoHeader}>
                     <Text style={styles.NoHeaderText}>ข้อ</Text>
+                  </View>
+                  <View style={styles.NoContainer}>
+                    <Text style={styles.NoText}>{elAssessment.assessment_details_id}</Text>
+                  </View>
                 </View>
-                <View style={styles.NoContainer}>
-                    <Text style={styles.NoText}>00</Text>
-                </View>
-                </View>
-            </View>
-            {/* อายุล่าสุด */}
-            <View style={styles.DevAgeContainer}>
-              <View style={styles.DevAgeHeader}>
-                <Text style={styles.DevAgeHeaderText}>อายุพัฒนาการล่าสุด</Text>
               </View>
-              <View style={styles.DevAgeTextContainer}>
-                <Text style={styles.DevAgeText}>0000</Text>
+              {/* อายุล่าสุด */}
+              <View style={styles.DevAgeContainer}>
+                <View style={styles.DevAgeHeader}>
+                  <Text style={styles.DevAgeHeaderText}>
+                    อายุพัฒนาการล่าสุด
+                  </Text>
+                </View>
+                <View style={styles.DevAgeTextContainer}>
+                  <Text style={styles.DevAgeText}>0000</Text>
+                </View>
               </View>
             </View>
-         </View>
-         </LinearGradient>
-
-         {/* PS */}
-         <LinearGradient
-                        colors={["#fff","#E0F6EE","#D6F1E8"]}
-                        start={{ x: 0, y: 1 }}
-                        end={{ x: 1.5, y: 1 }} 
-                        style={styles.detailByAssess}>
+          </LinearGradient>
+          {/* PS */}
+          {/* // if assessments.aspect === "PS" ให้แสดงข้อมูล */}
+          <LinearGradient
+            colors={["#fff", "#E0F6EE", "#D6F1E8"]}
+            start={{ x: 0, y: 1 }}
+            end={{ x: 1.5, y: 1 }}
+            style={styles.detailByAssess}
+          >
             {/* Header */}
-         <View style={styles.HeaderOfAssessment}>
-            <Text style={styles.HeaderOfAssessmentText}>Personal and Social(PS)</Text>
-        </View>
-        {/* Body */}
-         <View style={styles.BodyOfAssesment}>
-            {/* วันที่และข้อ*/}
-            <View style={styles.DateNoContainer}>
+            <View style={styles.HeaderOfAssessment}>
+              <Text style={styles.HeaderOfAssessmentText}>
+                Personal and Social(PS)
+              </Text>
+            </View>
+            {/* Body */}
+            <View style={styles.BodyOfAssesment}>
+              {/* วันที่และข้อ*/}
+              <View style={styles.DateNoContainer}>
                 {/* วันที่ */}
                 <View style={styles.DateContainer}>
                   <View style={styles.DateHeader}>
-                    <Text style={styles.DateHeaderText}>วันที่ประเมินล่าสุด</Text>
+                    <Text style={styles.DateHeaderText}>
+                      วันที่ประเมินล่าสุด
+                    </Text>
                   </View>
                   <View style={styles.DateTextContainer}>
-                    <Text style={styles.DateText}>0000</Text>
+                    <Text style={styles.DateText}>{psAssessment.assessment_date}</Text>
                   </View>
                 </View>
 
                 {/* ข้อ */}
                 <View style={styles.NoHeaderContainer}>
-                <View style={styles.NoHeader}>
+                  <View style={styles.NoHeader}>
                     <Text style={styles.NoHeaderText}>ข้อ</Text>
+                  </View>
+                  <View style={styles.NoContainer}>
+                    <Text style={styles.NoText}>{psAssessment.assessment_details_id}</Text>
+                  </View>
                 </View>
-                <View style={styles.NoContainer}>
-                    <Text style={styles.NoText}>00</Text>
-                </View>
-                </View>
-            </View>
-            {/* อายุล่าสุด */}
-            <View style={styles.DevAgeContainer}>
-              <View style={styles.DevAgeHeader}>
-                <Text style={styles.DevAgeHeaderText}>อายุพัฒนาการล่าสุด</Text>
               </View>
-              <View style={styles.DevAgeTextContainer}>
-                <Text style={styles.DevAgeText}>0000</Text>
+              {/* อายุล่าสุด */}
+              <View style={styles.DevAgeContainer}>
+                <View style={styles.DevAgeHeader}>
+                  <Text style={styles.DevAgeHeaderText}>
+                    อายุพัฒนาการล่าสุด
+                  </Text>
+                </View>
+                <View style={styles.DevAgeTextContainer}>
+                  <Text style={styles.DevAgeText}>0000</Text>
+                </View>
               </View>
             </View>
-         </View>
-         </LinearGradient>
+          </LinearGradient>
         </ScrollView>
       </View>
-
 
       {/* Bottom Section */}
       <View style={styles.bottomSection}>
@@ -371,7 +463,7 @@ const styles = StyleSheet.create({
   topSection: {
     flex: 1,
     width: "100%",
-    maxHeight:220,
+    maxHeight: 220,
     alignItems: "center",
     //borderWidth:2,
   },
@@ -379,7 +471,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "95%",
     height: "60%",
-    alignSelf: "center",  // ใช้แทน alignItems เพื่อไม่ให้ตัดเงา
+    alignSelf: "center", // ใช้แทน alignItems เพื่อไม่ให้ตัดเงา
     //marginTop: 10,
     //paddingBottom: "70%",
     //paddingVertical: 20,
@@ -392,13 +484,12 @@ const styles = StyleSheet.create({
     //justifyContent: "center",
     //alignItems: "center",
     //borderWidth:2,
-    
   },
   detailByAssess: {
     flexDirection: "column",
     width: "95%",
-    height:"auto",
-    marginHorizontal:10,
+    height: "auto",
+    marginHorizontal: 10,
     marginBottom: 10,
     //borderWidth: 1,
     shadowColor: "#848484",
@@ -410,66 +501,63 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  
-  HeaderOfAssessment:{
+
+  HeaderOfAssessment: {
     width: "100%",
-    paddingVertical:10,
+    paddingVertical: 10,
     borderTopRightRadius: 20,
-    borderTopLeftRadius:20,
-    borderBottomRightRadius:0,
-    borderBottomLeftRadius:0,
+    borderTopLeftRadius: 20,
+    borderBottomRightRadius: 0,
+    borderBottomLeftRadius: 0,
     backgroundColor: "#8DD9BD",
     //justifyContent: "center",
     //borderWidth:1,
-    alignItems:"center",
+    alignItems: "center",
   },
-  HeaderOfAssessmentText:{
-    color:"#fff",
-    fontSize:17,
+  HeaderOfAssessmentText: {
+    color: "#fff",
+    fontSize: 17,
     fontWeight: "bold",
-    
   },
-  BodyOfAssesment:{
-    flexDirection:"column",
+  BodyOfAssesment: {
+    flexDirection: "column",
     //borderWidth:1,
-    width:370,
-    
+    width: 370,
   },
 
-  DateNoContainer:{
-    flexDirection:"row",
-    width:"100%",
-    height:35,
+  DateNoContainer: {
+    flexDirection: "row",
+    width: "100%",
+    height: 35,
     //borderWidth:1,
-    marginTop:8,
+    marginTop: 8,
   },
 
-  DateContainer:{
-    flexDirection:"row",
+  DateContainer: {
+    flexDirection: "row",
     //borderWidth:1,
-    width:"65%",
-    borderRadius:8,
-    marginLeft:4,
+    width: "65%",
+    borderRadius: 8,
+    marginLeft: 4,
   },
 
-  DateHeader:{
+  DateHeader: {
     //flexDirection:"row",
     //borderWidth:1,
-    alignItems:"center",
-    justifyContent:"center",
-    width:"50%",
-    backgroundColor:"#CAEEE1",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "50%",
+    backgroundColor: "#CAEEE1",
     borderTopRightRadius: 0,
-    borderTopLeftRadius:12,
-    borderBottomRightRadius:0,
-    borderBottomLeftRadius:12,
-    
+    borderTopLeftRadius: 12,
+    borderBottomRightRadius: 0,
+    borderBottomLeftRadius: 12,
   },
-  DateHeaderText:{
+  DateHeaderText: {
     color: "#000",
-    textAlign: "center", 
-    width: "100%", 
-    paddingVertical:7,
+    textAlign: "center",
+    width: "100%",
+    paddingVertical: 7,
     //fontWeight:"bold",
   },
 
@@ -480,118 +568,111 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 0,
     borderBottomRightRadius: 12,
     borderBottomLeftRadius: 0,
-    alignItems: "center",  // จัดให้อยู่ตรงกลางแนวนอน
+    alignItems: "center", // จัดให้อยู่ตรงกลางแนวนอน
     justifyContent: "center", // จัดให้อยู่ตรงกลางแนวตั้ง
-    
   },
-  
+
   DateText: {
     color: "#000",
-    textAlign: "center", 
-    width: "100%", 
-    paddingVertical:7, 
-    
+    textAlign: "center",
+    width: "100%",
+    paddingVertical: 7,
   },
 
-  NoHeaderContainer:{
-    flexDirection:"row",
+  NoHeaderContainer: {
+    flexDirection: "row",
     //backgroundColor:"#fff",
-    width:"31%",
-    borderRadius:8,
-    marginRight:4,
-    marginLeft:"auto",
+    width: "31%",
+    borderRadius: 8,
+    marginRight: 4,
+    marginLeft: "auto",
   },
-  
-  NoHeader:{
-    //borderWidth:1,
-    alignItems:"center",
-    justifyContent:"center",
-    width:"40%",
-    backgroundColor:"#CAEEE1",
-    borderTopRightRadius: 0,
-    borderTopLeftRadius:12,
-    borderBottomRightRadius:0,
-    borderBottomLeftRadius:12,
 
+  NoHeader: {
+    //borderWidth:1,
+    alignItems: "center",
+    justifyContent: "center",
+    width: "40%",
+    backgroundColor: "#CAEEE1",
+    borderTopRightRadius: 0,
+    borderTopLeftRadius: 12,
+    borderBottomRightRadius: 0,
+    borderBottomLeftRadius: 12,
   },
-  
-  NoHeaderText:{
+
+  NoHeaderText: {
     color: "#000",
-    textAlign: "center", 
-    width: "100%", 
-    paddingVertical:7,
+    textAlign: "center",
+    width: "100%",
+    paddingVertical: 7,
     //fontWeight:"bold",
   },
 
-  NoContainer:{
-    flexDirection:"row",
-    width:"60%",
-    backgroundColor:"#fff",
+  NoContainer: {
+    flexDirection: "row",
+    width: "60%",
+    backgroundColor: "#fff",
     borderTopRightRadius: 12,
     borderTopLeftRadius: 0,
     borderBottomRightRadius: 12,
     borderBottomLeftRadius: 0,
-    alignItems: "center",  // จัดให้อยู่ตรงกลางแนวนอน
+    alignItems: "center", // จัดให้อยู่ตรงกลางแนวนอน
     justifyContent: "center", // จัดให้อยู่ตรงกลางแนวตั้ง
   },
 
-  NoText:{
+  NoText: {
     color: "#000",
-    textAlign: "center", 
-    width: "100%", 
-    paddingVertical:7,
+    textAlign: "center",
+    width: "100%",
+    paddingVertical: 7,
   },
 
-  DevAgeContainer:{
-    flexDirection:"row",
+  DevAgeContainer: {
+    flexDirection: "row",
     //borderWidth:1,
-    width:"98%",
-    height:35,
-    borderRadius:8,
-    marginHorizontal:4,
-    marginVertical:8,
+    width: "98%",
+    height: 35,
+    borderRadius: 8,
+    marginHorizontal: 4,
+    marginVertical: 8,
     //backgroundColor:"#fff",
   },
 
-  DevAgeHeader:{
-    alignItems:"center",
-    justifyContent:"center",
-    width:"40%",
-    backgroundColor:"#CAEEE1",
+  DevAgeHeader: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: "40%",
+    backgroundColor: "#CAEEE1",
     borderTopRightRadius: 0,
-    borderTopLeftRadius:12,
-    borderBottomRightRadius:0,
-    borderBottomLeftRadius:12,
+    borderTopLeftRadius: 12,
+    borderBottomRightRadius: 0,
+    borderBottomLeftRadius: 12,
   },
-  DevAgeHeaderText:{
+  DevAgeHeaderText: {
     color: "#000",
-    textAlign: "center", 
-    width: "100%", 
-    paddingVertical:7,
+    textAlign: "center",
+    width: "100%",
+    paddingVertical: 7,
     //fontWeight:"bold",
   },
-  DevAgeTextContainer:{
-    flexDirection:"row",
-    width:"60%",
-    backgroundColor:"#fff",
+  DevAgeTextContainer: {
+    flexDirection: "row",
+    width: "60%",
+    backgroundColor: "#fff",
     borderTopRightRadius: 12,
     borderTopLeftRadius: 0,
     borderBottomRightRadius: 12,
     borderBottomLeftRadius: 0,
-    alignItems: "center",  // จัดให้อยู่ตรงกลางแนวนอน
+    alignItems: "center", // จัดให้อยู่ตรงกลางแนวนอน
     justifyContent: "center", // จัดให้อยู่ตรงกลางแนวตั้ง
   },
 
-  DevAgeText:{
+  DevAgeText: {
     color: "#000",
-    textAlign: "center", 
-    width: "100%", 
-    paddingVertical:7,
+    textAlign: "center",
+    width: "100%",
+    paddingVertical: 7,
   },
-
-
-
-
 
   bottomSection: {
     flexDirection: "row",
@@ -725,7 +806,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 3,
     elevation: 2,
-    
   },
   homeButton: {
     backgroundColor: "#cce9fe",
@@ -743,13 +823,12 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
   },
-  
-  
+
   headerText: {
     fontSize: 20,
     fontWeight: "bold",
     bottom: 5,
-    marginTop:10,
-    marginBottom:5,
+    marginTop: 10,
+    marginBottom: 5,
   },
 });

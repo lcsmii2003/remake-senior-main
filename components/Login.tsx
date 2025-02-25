@@ -16,6 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {LoadingScreenAdvice} from "../components/LoadingScreen";
 
 import { MyInput } from "./ui/Myinput";
 import { setFirstName, setLastName } from "../app/user-slice";

@@ -219,28 +219,6 @@ export const HomePR: FC = () => {
           // If there are no details for this aspect, skip rendering
           if (filteredDetails.length === 0) return null;
 
-          // Select the correct icon based on the aspect
-         /*  let aspectImage;
-          switch (aspect) {
-            case "GM":
-              aspectImage = require("../../assets/icons/stateGM.png");
-              break;
-            case "FM":
-              aspectImage = require("../../assets/icons/stateFM.png");
-              break;
-            case "RL":
-              aspectImage = require("../../assets/icons/stateRL.png");
-              break;
-            case "EL":
-              aspectImage = require("../../assets/icons/stateEL.png");
-              break;
-            case "PS":
-              aspectImage = require("../../assets/icons/statePS.png");
-              break;
-            default:
-              aspectImage = require("../../assets/icons/childIcon.png"); // Fallback image
-          }
- */
           return (
             <View key={aspect}>
               {/* Render each detail for this aspect */}
@@ -277,9 +255,10 @@ export const HomePR: FC = () => {
     navigation.navigate("addchild");
   };
 
-  const whenGotoDetail = (child : Child) => {
-    navigation.navigate("childdetail", { child });
-  };
+  const whenGotoDetail = (child: Child, assessment: AssessmentDetails[]) => {
+    navigation.navigate("childdetail", { child , assessment});
+};
+
 
 
   const whenGotoAssessment = (child: Child) => {
@@ -383,7 +362,9 @@ export const HomePR: FC = () => {
                             ? styles.detailsButtonBoy
                             : styles.detailsButtonGirl
                         }
-                        onPress={() => whenGotoDetail(child)}
+                        onPress={() => whenGotoDetail(child, assessmentDetails.filter(a => a.child_id === child.child_id))}
+                        
+
                       >
                         <Text style={styles.detailsText}>ดูรายละเอียด</Text>
                       </Pressable>
