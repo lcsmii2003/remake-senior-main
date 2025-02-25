@@ -50,6 +50,10 @@ export const ChildDetail: FC = () => {
     navigation.navigate("sp", { child });
   };
 
+  const whenGotoEditChild = (child : Child) => {
+      navigation.navigate("editchild", { child });
+    };
+
   const whenGotoHome = () => {
     navigation.navigate("mainPR");
   };
@@ -92,7 +96,7 @@ export const ChildDetail: FC = () => {
                   ? styles.detailsButtonBoy
                   : styles.detailsButtonGirl
               }
-              //onPress={() => whenGotoDetail(child.id)}
+              onPress={() => whenGotoEditChild(child)}
             >
               <Text style={styles.detailsText}>แก้ไขข้อมูล</Text>
             </Pressable>

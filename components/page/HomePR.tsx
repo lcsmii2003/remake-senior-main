@@ -281,6 +281,7 @@ export const HomePR: FC = () => {
     navigation.navigate("childdetail", { child });
   };
 
+
   const whenGotoAssessment = (child: Child) => {
     navigation.navigate("assessment", { child });
   };
@@ -587,70 +588,66 @@ const styles = StyleSheet.create({
   stateContainer: {
     flexDirection: "row",
     flex: 2,
-    //justifyContent: "space-between", // Add space between elements
+    //justifyContent: "space-evenly", // กระจายกล่องให้มีระยะห่างเท่ากัน รวมขอบซ้าย-ขวา
     alignItems: "center",
     width: "100%",
     height: "40%",
-    //borderWidth:1,
+    //borderWidth: 1,
+    paddingHorizontal: 10, // เพิ่ม padding ซ้าย-ขวาให้บาลานซ์ขึ้น
     
-    
-  },
-  assessmentsState: {
-    //backgroundColor: "#fff",
+},
+
+assessmentsState: {
     alignItems: "center",
     justifyContent: "center",
     width: 60,
     height: "auto",
     borderRadius: 15,
-    //marginVertical:5,
-    marginTop:10,
+    marginTop: 10,
     //borderWidth: 1,
-    marginHorizontal:5.5,
     shadowColor: "#848484",
     shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 0.2,
     shadowRadius: 10,
     elevation: 5,
+    marginLeft:1.5,
+},
 
-  },
-  textState: {
+textState: {
     fontSize: 16,
     color: "#000000",
     textAlign: "center",
-  },
-  /* stateIcon: {
-    width: 60,
-    height: 35,
-    borderRadius: 10,
-  }, */
-  aspectName:{
-    textAlign:"center",
+    marginLeft:"auto",
+    marginRight:"auto",
+},
+
+aspectName: {
+    textAlign: "center",
     width: 55,
     height: 28,
     borderTopRightRadius: 10,
-    borderTopLeftRadius:10,
-    borderBottomRightRadius:0,
-    borderBottomLeftRadius:0,
+    borderTopLeftRadius: 10,
     backgroundColor: "#8DD9BD",
     justifyContent: "center",
-    //borderWidth:1,
-  },
-  textaspectName:{
+    alignItems: "center", // ให้ text อยู่กึ่งกลาง
+},
+
+textaspectName: {
     fontSize: 16,
     color: "#fff",
     textAlign: "center",
-  },
-  stateNumber: {
+},
+
+stateNumber: {
     width: 55,
     height: 30,
-    borderTopRightRadius: 0,
-    borderTopLeftRadius:0,
-    borderBottomRightRadius:10,
-    borderBottomLeftRadius:10,
+    borderBottomRightRadius: 10,
+    borderBottomLeftRadius: 10,
     backgroundColor: "#FFF",
     justifyContent: "center",
-    // borderWidth: 1,
-  },
+    alignItems: "center", // ให้ text อยู่กึ่งกลาง
+    
+},
 
   // ---------------------------------------------------------------------------------------------
 

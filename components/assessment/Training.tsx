@@ -7,6 +7,7 @@ import {
   Image,
   Pressable,
   ImageBackground,
+  ScrollView
 } from "react-native";
 import {
   useNavigation,
@@ -19,6 +20,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { Child } from "../page/HomePR";
 import { AssessmentDetails } from "../assessment/GM";
+import { LinearGradient } from "expo-linear-gradient";
 
 type ChildRouteProp = RouteProp<{ assessment: { child: Child } }, "assessment">;
 
@@ -190,12 +192,7 @@ export const Training: FC = () => {
   }
 
   const imageMap: ImageMap = {
-    /* "GM/gm-1": require("../../assets/assessment/GM/gm-3.png"),
-    "GM/gm-dv-1": require("../../assets/assessment/GM/devices/gm-dv-1.png"),
-    "GM/gm-tr-1": require("../../assets/assessment/GM/trainings/gm-tr-2.png"),
-    "GM/gm-2": require("../../assets/assessment/GM/gm-4.png"),
-    "GM/gm-dv-2": require("../../assets/assessment/GM/devices/gm-dv-2.png"),
-    "GM/gm-tr-2": require("../../assets/assessment/GM/trainings/gm-tr-2.png"), */
+    //"GM/gm-tr-2": require("../../assets/assessment/GM/trainings/gm-tr-2.png"), 
   };
 
   const getImageSource = (imagePath: string): any => {
@@ -214,13 +211,16 @@ export const Training: FC = () => {
     >
       {/* Top Section */}
       <View style={styles.topSection}>
-        <View
-          key={child.child_id}
-          style={
-            child.gender === "male"
-              ? styles.profileCardBoy
-              : styles.profileCardGirl
-          }
+       <LinearGradient
+            key={child.child_id}
+            colors={
+              child.gender === "male"
+                ? ["#fff", "#E7F6FF","#D6ECFD"]  // ไล่สีฟ้าสำหรับเด็กผู้ชาย
+                :["#fff", "#FFDEE4","#FFBED6"]  // ไล่สีชมพูสำหรับเด็กผู้หญิง
+            }
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={child.gender === "male" ? styles.profileCardBoy : styles.profileCardGirl}
         >
           <Image source={{ uri: child.childPic }} style={styles.profileIcon} />
           <View style={styles.profileInfo}>
@@ -231,11 +231,13 @@ export const Training: FC = () => {
               <Text style={styles.profileAge}>{child.age}</Text>
             </View>
           </View>
-        </View>
+        </LinearGradient>
       </View>
 
       {/* Mid Section */}
       <View style={styles.midSection}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+      <View style={styles.containerSection}>
         {/* assessment header */}
         <View style={styles.headerTextContainer}>
           <Text style={styles.headerText}>Gross Motor (GM)</Text>
@@ -315,6 +317,8 @@ export const Training: FC = () => {
           </>
         )}
       </View>
+      </ScrollView>
+      </View>
 
       {/* Bottom Section */}
       <View style={styles.bottomSection}>
@@ -346,23 +350,36 @@ const styles = StyleSheet.create({
     paddingTop: 55,
     // borderWidth: 1,
   },
+
   midSection: {
-    //flex: 1,
-    width: 350,
-    minHeight: "auto",
+    width: "90%",
+    height: "72%",
+    marginBottom: 15,
+    flexDirection: "row",
+    justifyContent: "center",
+    // borderWidth: 2,
+  },
+  containerSection: {
+    // flex: 1,
+    width: "95%",
+    height: "auto",
+    minHeight: 300,
+    //maxHeight:485,
     marginTop: 5,
+    marginHorizontal:8,
+    marginBottom:10,
     paddingBottom: 5,
-    //paddingVertical: 10,
-    borderRadius: 30,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3,
-    elevation: 6,
+    borderRadius: 20,
+    shadowColor: "#c5c5c5",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
+    elevation: 5,
     backgroundColor: "#fff",
     // justifyContent: "center",
     alignItems: "center",
-    // borderWidth: 2,
+    overflow: "hidden", // Add this line to prevent overflow
+    //borderWidth: 2,
   },
   bottomSection: {
     flexDirection: "row",
@@ -379,30 +396,30 @@ const styles = StyleSheet.create({
 
   profileCardGirl: {
     flexDirection: "row",
-    width: 350,
     height: "auto",
     alignItems: "center",
     backgroundColor: "#ffd7e5",
     padding: 10,
-    borderRadius: 30,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3,
-    elevation: 6,
+    borderRadius: 20,
+    width: "85%",
+    shadowColor: "#b5b5b5",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 10,
+    elevation: 5,
   },
   profileCardBoy: {
     flexDirection: "row",
-    width: 350,
     alignItems: "center",
     backgroundColor: "#c5e5fc",
     padding: 10,
-    borderRadius: 30,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3,
-    elevation: 6,
+    borderRadius: 20,
+    width: "85%",
+    shadowColor: "#b5b5b5",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 10,
+    elevation: 5,
   },
   profileIcon: {
     width: 70,
@@ -469,6 +486,7 @@ const styles = StyleSheet.create({
     color: "#FFF",
     padding: 2,
   },
+  
   backIcon: {
     width: 35,
     height: 35,
@@ -499,7 +517,8 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 70,
     // height: 40,
-    borderRadius: 30,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
     backgroundColor: "#5F5F5F",
     alignItems: "center", // แกน x
     // justifyContent: "center", // แกน y
@@ -541,7 +560,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#8DD9BD",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 25,
+    borderTopRightRadius: 0,
+    borderTopLeftRadius: 30,
+    borderBottomRightRadius: 0,
+    borderBottomLeftRadius: 30,
     width: 60,
     height: "100%",
   },
@@ -553,18 +575,21 @@ const styles = StyleSheet.create({
   assessmentTitleContainer: {
     flexDirection: "row",
     width: "70%",
+    height: "auto",
     alignItems: "center",
   },
   assessmentTitle: {
     fontSize: 14,
     fontWeight: "bold",
+    width: 220,
+    height: "auto",
     marginTop: 5,
     marginBottom: 5,
-    marginLeft: 10,
-    marginRight: 10,
+    marginLeft: "auto",
+    marginRight: "auto",
     textAlign: "center",
-    // borderWidth: 2,
-  },
+    //borderWidth: 2,
+    },
 
   // ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -611,7 +636,7 @@ const styles = StyleSheet.create({
 
   assessmentHowto: {
     width: "90%",
-    height: 150,
+    height: "auto",
     paddingBottom: 10,
     paddingHorizontal: 10,
     marginVertical: 5,
@@ -646,7 +671,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: "#fff",
     alignItems: "center",
-    borderWidth: 1, // line
+    //borderWidth: 1, // line
   },
   headerResult: {
     fontSize: 16,
@@ -657,6 +682,7 @@ const styles = StyleSheet.create({
   resultText: {
     fontSize: 13,
     textAlign: "center",
+    fontWeight:"bold",
     marginVertical: 5,
     paddingHorizontal: 20,
   },
@@ -670,13 +696,14 @@ const styles = StyleSheet.create({
     //borderWidth: 2,
   },
   tryAgainButton: {
-    backgroundColor: "#DAF0C8",
-    padding: 10,
+    backgroundColor: "#8DD9BD",
+    padding: 15,
     borderRadius: 30,
     width: "auto",
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "center",
+    marginVertical:10,
   },
   tryAgainText: {
     fontSize: 13,

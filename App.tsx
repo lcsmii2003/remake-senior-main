@@ -31,6 +31,8 @@ import { AddchildSP } from "./components/page/AddchildSP";
 import { ChooseRoom } from "./components/page/ChooseRoom";
 import { ChooseChildSP } from "./components/page/ChooseChildSP";
 import {ChildDetail} from "./components/page/ChildDetail";
+import {EditChild} from "./components/page/EditChild";
+
 
 import { HospitalDetailScreen } from "./components/HospitalDetailScreen";
 
@@ -79,6 +81,8 @@ export default function App() {
           <Stack.Screen name="training" component={Training} />
           <Stack.Screen name="updateprofile" component={UpdateProfile} />
           <Stack.Screen name="childdetail" component={ChildDetail} />
+          <Stack.Screen name="editchild" component={EditChild} />
+
 
 
           <Stack.Screen name="addroom" component={AddRoom} />

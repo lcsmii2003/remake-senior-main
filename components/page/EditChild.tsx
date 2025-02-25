@@ -42,7 +42,7 @@ const AddChildSchema = z.object({
 // Type Definitions
 type AddChildModel = z.infer<typeof AddChildSchema>;
 
-export const AddChild: FC = () => {
+export const EditChild: FC = () => {
   const {
     control,
     handleSubmit,
@@ -235,7 +235,7 @@ export const AddChild: FC = () => {
         style={styles.background}
       >
         {/* Top Section */}
-        <Text style={styles.HeaderText}>ข้อมูลเด็กที่ต้องการเพิ่ม</Text>
+        <Text style={styles.HeaderText}>แก้ไขข้อมูลเด็ก</Text>
 
         {/* Mid Section */}
         <View style={styles.Inputcontainer}>
@@ -471,6 +471,9 @@ export const AddChild: FC = () => {
             </View>
           </LinearGradient>
         </View>
+            
+           
+
         {/* Bottom Section */}
         <View style={styles.buttonContainer}>
           <Pressable style={styles.backButton} onPress={goBack}>
@@ -486,6 +489,13 @@ export const AddChild: FC = () => {
           >
             <Text style={styles.buttonText}>บันทึก</Text>
           </Pressable>
+        </View>
+        <View style={styles.deleteChild}>
+                <Image 
+                    source={require("../../assets/icons/delete.png")}
+                    style={styles.deleteChildIcon}
+                    resizeMode="contain"
+                />
         </View>
       </ImageBackground>
       {/* </ScrollView> */}
@@ -595,6 +605,27 @@ const styles = StyleSheet.create({
     backgroundColor: "#4CAF50",
     marginRight: 10,
   },
+
+  deleteChild:{
+    //borderWidth:1,
+    width:90,
+    height:55,
+    borderRadius:30,
+    backgroundColor:"#FF8E8E",
+    position: "absolute",
+    bottom:70,
+    justifyContent:"center",
+    alignItems:"center",
+  },
+
+  deleteChildIcon:{
+    width:"35%",
+    marginLeft:7,
+    //height:40,
+    //borderWidth:1,
+
+  },
+
   buttonContainer: {
     position: "absolute",
     bottom: 180,
