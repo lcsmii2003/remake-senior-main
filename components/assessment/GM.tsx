@@ -19,7 +19,7 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { Child } from "../page/HomePR";
-import { LoadingScreenAdvice, LoadingScreenSearchfile } from "../LoadingScreen";
+import { LoadingScreenBook } from "../LoadingScreen";
 import { LinearGradient } from "expo-linear-gradient";
 
 type GMRouteProp = RouteProp<{ assessment: { child: Child } }, "assessment">;
@@ -365,11 +365,12 @@ export const GM: FC = () => {
       </View>
 
       {/* Mid Section */}
+      
       <View style={styles.midSection}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.containerSection}>
             {loading ? (
-              <LoadingScreenSearchfile />
+              <LoadingScreenBook />
             ) : error ? (
               <Text style={styles.errorText}>{error}</Text>
             ) : (

@@ -19,7 +19,7 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { Child } from "../page/HomePR";
-import { LoadingScreenSearchfile } from "../LoadingScreen";
+import { LoadingScreenBook } from "../LoadingScreen";
 import { LinearGradient } from "expo-linear-gradient";
 
 type GMRouteProp = RouteProp<{ assessment: { child: Child } }, "assessment">;
@@ -367,7 +367,7 @@ export const PS: FC = () => {
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.containerSection}>
             {loading ? (
-              <LoadingScreenSearchfile />
+              <LoadingScreenBook />
             ) : error ? (
               <Text style={styles.errorText}>{error}</Text>
             ) : (

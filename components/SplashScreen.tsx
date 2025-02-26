@@ -1,77 +1,75 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
   View,
   Text,
-  Image,
-  StyleSheet,
   ImageBackground,
   ActivityIndicator,
+  StyleSheet,
+  Animated,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
-import { SafeAreaProvider } from "react-native-safe-area-context";
-import { LoadingScreenAdvice } from "../components/LoadingScreen"
-import { LoadingScreenStar } from "../components/LoadingScreen"
+import { LoadingScreenHello } from "../components/LoadingScreen";
 
 export const SplashScreen: FC = () => {
   const navigation = useNavigation<NavigationProp<any>>();
+  const [fadeAnim] = useState(new Animated.Value(0)); // เริ่มจาก opacity 0
 
   useEffect(() => {
+    // ทำให้ Header & Title ค่อยๆ แสดงหลังจาก 2 วินาที
+    setTimeout(() => {
+      Animated.timing(fadeAnim, {
+        toValue: 1, // opacity -> 1
+        duration: 1000, // 1 วินาที
+        useNativeDriver: false, // เปลี่ยนเป็น false ถ้าไม่แสดงผล
+      }).start();
+    }, 1000);
+
+    // ตรวจสอบสถานะล็อกอิน
     const checkLoginStatus = async () => {
       const userToken = await AsyncStorage.getItem("userToken");
       const userRole = await AsyncStorage.getItem("userRole");
 
-      if (userToken && userRole) {
-        setTimeout(() => {
-          if (userRole === "parent") {
-            navigation.reset({
-              index: 0,
-              routes: [{ name: "mainPR" }],
-            });
-          } else if (userRole === "supervisor") {
-            navigation.reset({
-              index: 0,
-              routes: [{ name: "mainSP" }],
-            });
-          } else {
-            navigation.reset({
-              index: 0,
-              routes: [{ name: "login" }],
-            });
-          }
-        }, 3000); // Wait for 3 seconds before navigating
-      } else if (!userToken) {
-        setTimeout(() => {
+      setTimeout(() => {
+        if (userToken && userRole) {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: userRole === "parent" ? "mainPR" : "mainSP" }],
+          });
+        } else {
           navigation.reset({
             index: 0,
             routes: [{ name: "welcome" }],
           });
-        }, 3000); // Wait for 3 seconds before navigating
-      }
+        }
+      }, 4000); // เปลี่ยนหน้าใน(วินาที)
     };
 
     checkLoginStatus();
   }, []);
 
   return (
-    <>
-      <ImageBackground
-        source={require("../assets/background/bg1.png")}
-        style={styles.background}
-      >
-        <View style={styles.container}>
-          <View style={styles.header}>
-            <Text style={styles.title}>Welcome to</Text>
-            <Text style={styles.header}>DekDek</Text>
-            <LoadingScreenStar/>
-          </View>
-          <ActivityIndicator size="large" color="#ffffff" />
+    <ImageBackground
+      source={require("../assets/background/bg1.png")}
+      style={styles.background}
+    >
+      <View style={styles.container}>
+        {/* แสดง Loading ก่อน */}
+        <View style={styles.helloLoading}>
+          <LoadingScreenHello />
         </View>
-      </ImageBackground>
-    </>
+
+        {/* แสดง Header & Title พร้อม Fade-in Animation */}
+        <Animated.View style={[styles.textContainer, { opacity: fadeAnim }]}>
+          <Text style={styles.title}>Welcome to</Text>
+          <Text style={styles.header}>DekDek</Text>
+        </Animated.View>
+
+        <ActivityIndicator size="large" color="#ffffff" style={{ marginTop: 20 }} />
+      </View>
+    </ImageBackground>
   );
 };
-
 const styles = StyleSheet.create({
   background: {
     flex: 1,
@@ -81,21 +79,30 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 16,
     justifyContent: "center",
-  },
-  header: {
-    fontSize: 24,
-    fontWeight: "bold",
     alignItems: "center",
-    marginBottom: 40,
   },
-  logo: {
+  helloLoading: {
+    justifyContent: "center",
+    alignItems: "center",
     width: 100,
     height: 100,
-    borderRadius: 50,
+  },
+  textContainer: {
+    flexDirection: "row", // จัดเรียง title และ header ในบรรทัดเดียวกัน
+    alignItems: "baseline", // จัดให้ baseline ของตัวอักษรตรงกัน
+    marginTop: 10,
   },
   title: {
-    fontSize: 20,
-    marginTop: 16,
-    marginBottom: 5,
+    fontSize: 18,
+    color: "#000",
+  },
+  header: {
+    fontSize: 30,
+    fontWeight: "bold",
+    color: "#000",
+    marginLeft: 7, // เพิ่มระยะห่างระหว่าง title กับ header
   },
 });
+
+export default SplashScreen;
+

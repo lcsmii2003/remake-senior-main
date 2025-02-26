@@ -1,5 +1,5 @@
 // Assessment.tsx
-import React, { FC, useState,useCallback } from "react";
+import React, { FC, useState, useCallback } from "react";
 import {
   ImageBackground,
   View,
@@ -8,6 +8,7 @@ import {
   Text,
   Image,
   ScrollView,
+  ActivityIndicator,
   
 } from "react-native";
 import {
@@ -27,6 +28,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Child } from "./HomePR";
 type ChildRouteProp = RouteProp<{ assessment: { child: Child } }, "assessment">;
 
+
 export const ChildDetail: FC = () => {
   // useState
   const navigation = useNavigation<NavigationProp<any>>();
@@ -39,20 +41,37 @@ export const ChildDetail: FC = () => {
   // ============================================================================================
   // useEffect
   useFocusEffect(
-    React.useCallback(() => {
+    useCallback(() => {
+      let isActive = true;
+
       const fetchChildDataForParent = async () => {
         try {
+          setLoading(true); // Set loading to true before fetching data
+
           const parent_id = await AsyncStorage.getItem("userId");
           const token = await AsyncStorage.getItem("userToken");
-          console.log("Child ID: ", child.child_id);
-          console.log("Parent ID: ", parent_id);
 
-          if (!parent_id) {
-            console.error("Parent ID is missing.");
+          if (!child?.child_id) {
+            console.warn("Child ID is missing.");
+            setLoading(false);
             return;
           }
 
-          // setLoading(true);
+          if (!parent_id) {
+            console.error("Parent ID is missing.");
+            setLoading(false);
+            return;
+          }
+
+          if (!token) {
+            console.error("Authentication token is missing.");
+            setLoading(false);
+            return;
+          }
+
+          console.log("Fetching data for Child ID:", child.child_id);
+          console.log("Parent ID:", parent_id);
+
           const response = await fetch(
             `https://senior-test-deploy-production-1362.up.railway.app/api/assessments/assessments-child/${parent_id}/${child.child_id}`,
             {
@@ -63,28 +82,54 @@ export const ChildDetail: FC = () => {
             }
           );
 
-          if (response.ok) {
-            const jsonResponse = await response.json();
-            const childData = jsonResponse.child || {};
-            const assessmentData = childData.assessments || [];
+          if (!response.ok) {
+            console.error(`Error fetching data: ${response.status} ${response.statusText}`);
+            setLoading(false);
+            return;
+          }
 
+          const jsonResponse = await response.json();
+          const childData = jsonResponse?.child || {};
+          const assessmentData = childData?.assessments || [];
+
+          if (isActive) {
             setAssessments(assessmentData);
-          } else {
-            console.error(
-              `Error fetching data: ${response.status} ${response.statusText}`
-            );
           }
         } catch (error) {
           console.error("Error fetching child data:", error);
         } finally {
-          // setLoading(false);
+          if (isActive) setLoading(false); // Ensure loading is false after fetching
         }
       };
 
       fetchChildDataForParent();
-    }, [child.child_id])
+
+      return () => {
+        isActive = false;
+      };
+    }, [child?.child_id])
   );
 
+  const formatDate = (dateString: string): string => {
+    if (!dateString) return "ไม่ระบุวันที่"; // ตรวจสอบว่ามีค่าวันที่หรือไม่
+  
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return "วันที่ไม่ถูกต้อง"; // ตรวจสอบว่าค่าเป็นวันที่ถูกต้องหรือไม่
+  
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // เดือนเริ่มจาก 0 จึงต้อง +1
+    const year = date.getFullYear();
+  
+    return `${day}/${month}/${year}`;
+  };
+  
+  // ตัวอย่างการใช้งาน
+  console.log(formatDate("2024-02-25")); // แสดงผล: "25/02/2024"
+  
+
+  if (loading) {
+      return <LoadingScreenBaby />;
+    }
   // ============================================================================================
 
   // navigate
@@ -187,7 +232,7 @@ export const ChildDetail: FC = () => {
                   </View>
                   <View style={styles.DateTextContainer}>
                     <Text style={styles.DateText}>
-                      {gmAssessment.assessment_date}
+                    {formatDate(gmAssessment.assessment_date)}
                     </Text>
                   </View>
                 </View>
@@ -212,9 +257,10 @@ export const ChildDetail: FC = () => {
                   </Text>
                 </View>
                 <View style={styles.DevAgeTextContainer}>
-                  <Text style={styles.DevAgeText}>
-                    {/* {gmAssessment.details.age_range} */}
-                  </Text>
+                <Text style={styles.DevAgeText}>
+                  {gmAssessment.details?.age_range ? gmAssessment.details.age_range : "-"}
+                </Text>
+                  <Text style={styles.monthText}>เดือน</Text>
                 </View>
               </View>
             </View>
@@ -243,7 +289,7 @@ export const ChildDetail: FC = () => {
                     </Text>
                   </View>
                   <View style={styles.DateTextContainer}>
-                    <Text style={styles.DateText}>{fmAssessment.assessment_date}</Text>
+                    <Text style={styles.DateText}>{formatDate(fmAssessment.assessment_date)}</Text>
                   </View>
                 </View>
 
@@ -265,7 +311,10 @@ export const ChildDetail: FC = () => {
                   </Text>
                 </View>
                 <View style={styles.DevAgeTextContainer}>
-                  <Text style={styles.DevAgeText}>0000</Text>
+                <Text style={styles.DevAgeText}>
+                  {fmAssessment.details?.age_range ? fmAssessment.details.age_range : "-"}
+                </Text>
+                  <Text style={styles.monthText}>เดือน</Text>
                 </View>
               </View>
             </View>
@@ -296,7 +345,7 @@ export const ChildDetail: FC = () => {
                     </Text>
                   </View>
                   <View style={styles.DateTextContainer}>
-                    <Text style={styles.DateText}>{rlAssessment.assessment_date}</Text>
+                    <Text style={styles.DateText}>{formatDate(rlAssessment.assessment_date)}</Text>
                   </View>
                 </View>
 
@@ -318,11 +367,15 @@ export const ChildDetail: FC = () => {
                   </Text>
                 </View>
                 <View style={styles.DevAgeTextContainer}>
-                  <Text style={styles.DevAgeText}>0000</Text>
+                <Text style={styles.DevAgeText}>
+                  {rlAssessment.details?.age_range ? rlAssessment.details.age_range : "-"}
+                </Text>
+                  <Text style={styles.monthText}>เดือน</Text>
                 </View>
               </View>
             </View>
           </LinearGradient>
+
           {/* EL */}
           {/* // if assessments.aspect === "EL" ให้แสดงข้อมูล */}
           <LinearGradient
@@ -349,7 +402,7 @@ export const ChildDetail: FC = () => {
                     </Text>
                   </View>
                   <View style={styles.DateTextContainer}>
-                    <Text style={styles.DateText}>{elAssessment.assessment_date}</Text>
+                    <Text style={styles.DateText}>{formatDate(elAssessment.assessment_date)}</Text>
                   </View>
                 </View>
 
@@ -371,11 +424,15 @@ export const ChildDetail: FC = () => {
                   </Text>
                 </View>
                 <View style={styles.DevAgeTextContainer}>
-                  <Text style={styles.DevAgeText}>0000</Text>
+                <Text style={styles.DevAgeText}>
+                {elAssessment.details?.age_range ? elAssessment.details.age_range : "-"}
+                </Text>
+                  <Text style={styles.monthText}>เดือน</Text>
                 </View>
               </View>
             </View>
           </LinearGradient>
+
           {/* PS */}
           {/* // if assessments.aspect === "PS" ให้แสดงข้อมูล */}
           <LinearGradient
@@ -402,7 +459,7 @@ export const ChildDetail: FC = () => {
                     </Text>
                   </View>
                   <View style={styles.DateTextContainer}>
-                    <Text style={styles.DateText}>{psAssessment.assessment_date}</Text>
+                    <Text style={styles.DateText}>{formatDate(psAssessment.assessment_date)}</Text>
                   </View>
                 </View>
 
@@ -424,7 +481,10 @@ export const ChildDetail: FC = () => {
                   </Text>
                 </View>
                 <View style={styles.DevAgeTextContainer}>
-                  <Text style={styles.DevAgeText}>0000</Text>
+                <Text style={styles.DevAgeText}>
+                {psAssessment.details?.age_range ? psAssessment.details.age_range : "-"}
+                </Text>
+                  <Text style={styles.monthText}>เดือน</Text>
                 </View>
               </View>
             </View>
@@ -631,6 +691,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     //borderWidth:1,
     width: "98%",
+
     height: 35,
     borderRadius: 8,
     marginHorizontal: 4,
@@ -669,9 +730,18 @@ const styles = StyleSheet.create({
 
   DevAgeText: {
     color: "#000",
-    textAlign: "center",
-    width: "100%",
-    paddingVertical: 7,
+    textAlign: "right",
+    width: "50%",
+    paddingVertical: 5,
+    marginRight:10,
+  },
+
+  monthText:{
+      color: "#000",
+      textAlign: "left",
+      width: "50%",
+      paddingVertical: 5,
+      //borderWidth:1,
   },
 
   bottomSection: {

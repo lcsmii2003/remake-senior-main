@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     //borderWidth:1,
     alignItems: "center",
     position:"absolute",
-    top:310,
+    top:270,
   },
   
   logo: {

@@ -14,6 +14,8 @@ import {
   ImageBackground,
   Keyboard,
   Modal,
+  KeyboardAvoidingView,
+  
 } from "react-native";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -228,7 +230,12 @@ export const AddChild: FC = () => {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <KeyboardAvoidingView
+    behavior={Platform.OS === "ios" ? "padding" : "height"}
+    style={{ flex: 1 }}
+    >
+
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       {/* <ScrollView contentContainerStyle={styles.scrollContainer}> */}
       <ImageBackground
         source={require("../../assets/background/bg2.png")}
@@ -487,9 +494,10 @@ export const AddChild: FC = () => {
             <Text style={styles.buttonText}>บันทึก</Text>
           </Pressable>
         </View>
-      </ImageBackground>
-      {/* </ScrollView> */}
+        
+        </ImageBackground>
     </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -503,6 +511,7 @@ const styles = StyleSheet.create({
     // paddingTop: 50,
     //borderWidth:2,
   },
+  
   SafeArea: {
     flex: 1,
   },
@@ -618,11 +627,13 @@ const styles = StyleSheet.create({
   },
   avtarFrame: {
     borderRadius: 50,
+    
   },
   avatar: {
     width: 100,
     height: 100,
     borderRadius: 50,
+    //borderWidth:1,
   },
   addIcon: {
     top: 4,

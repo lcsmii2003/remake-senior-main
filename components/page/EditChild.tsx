@@ -53,6 +53,7 @@ export const EditChild: FC = () => {
   });
   // hooks
   const navigation = useNavigation<NavigationProp<any>>();
+  const [modalVisible, setModalVisible] = useState(false); // สร้าง state สำหรับ Modal
 
   const [childPic, setChildPic] = useState<string | null>(null);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
@@ -213,6 +214,13 @@ export const EditChild: FC = () => {
       console.log(e);
       Alert.alert("ระบบมีปัญหา", "กรุณาลองอีกครั้ง");
     }
+
+    // ฟังก์ชันลบข้อมูลเด็ก
+    const handleDeleteChild = () => {
+      setModalVisible(false); // ปิด Popup
+      Alert.alert("ลบสำเร็จ", "ข้อมูลเด็กถูกลบแล้ว");
+      // สามารถเพิ่มโค้ด API เพื่อลบข้อมูลเด็กที่นี่
+    };
   };
   // // for test
   // const whenGotoAssessment = () => {
@@ -490,15 +498,48 @@ export const EditChild: FC = () => {
             <Text style={styles.buttonText}>บันทึก</Text>
           </Pressable>
         </View>
-        <View style={styles.deleteChild}>
-                <Image 
-                    source={require("../../assets/icons/delete.png")}
-                    style={styles.deleteChildIcon}
-                    resizeMode="contain"
-                />
-        </View>
+
+           {/* ปุ่มลบเด็ก */}
+        <Pressable style={styles.deleteChild} onPress={() => setModalVisible(true)}>
+          <Image 
+            source={require("../../assets/icons/delete.png")}
+            style={styles.deleteChildIcon}
+            resizeMode="contain"
+          />
+        </Pressable>
+                  {/* Popup Modal */}
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(false)}
+        >
+          <View style={styles.modalBackground}>
+            <View style={styles.modalContainer}>
+              <Text style={styles.modalText}>คุณต้องการลบข้อมูลเด็กใช่หรือไม่?</Text>
+              <Text style={styles.modaltitleText}>เด็กจะถูกลบออกจากบัญชีของคุณ รวมถึงบัญชีของผู้ดูแลที่เคยได้รับอนุญาตให้ใช้ข้อมูลด้วย</Text>
+
+              <View style={styles.modalButtonContainer}>
+                {/* ปุ่มยกเลิก */}
+                <Pressable
+                  style={[styles.modalButton, styles.cancelButton]}
+                  onPress={() => setModalVisible(false)}
+                >
+                  <Text style={styles.buttonText}>ยกเลิก</Text>
+                </Pressable>
+
+                {/* ปุ่มยืนยันลบ */}
+                <Pressable
+                  style={[styles.modalButton, styles.confirmButton]}
+                  //onPress={handleDeleteChild}
+                >
+                  <Text style={styles.buttonText}>ยืนยัน</Text>
+                </Pressable>
+              </View>
+            </View>
+          </View>
+        </Modal>
       </ImageBackground>
-      {/* </ScrollView> */}
     </TouchableWithoutFeedback>
   );
 };
@@ -631,6 +672,57 @@ const styles = StyleSheet.create({
 
   },
 
+  modalBackground: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)", // พื้นหลังโปร่งใส
+  },
+  modalContainer: {
+    width: 300,
+    padding: 20,
+    backgroundColor: "#fff",
+    borderRadius: 25,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalText: {
+    fontSize: 18,
+    textAlign: "center",
+    marginBottom: 10,
+    fontWeight:"bold",
+   
+  },
+  modaltitleText:{
+    textAlign:"center",
+    fontSize:13,
+    marginBottom:20,
+  },
+  modalButtonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+  },
+  modalButton: {
+    flex: 1,
+    padding: 10,
+    borderRadius: 8,
+    alignItems: "center",
+    marginHorizontal: 5,
+  },
+  cancelButton: {
+    backgroundColor: "#FFB6B6",
+  },
+  confirmButton: {
+    backgroundColor: "#CAEEE1",
+   
+  },
+  
+
   buttonContainer: {
     position: "absolute",
     bottom: 170,
@@ -741,12 +833,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  modalBackground: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
+ 
   pickerContainer: {
     backgroundColor: "white",
     padding: 20,
@@ -758,15 +845,8 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
 
-  confirmButton: {
-    flex: 1,
-    backgroundColor: "#f4f4f4",
-    padding: 12,
-    borderRadius: 8,
-    marginLeft: 5,
-    alignItems: "center",
-    justifyContent: "center",
-  },
+  
+
   confirmText: {
     color: "white",
     fontSize: 16,
@@ -777,15 +857,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginTop: 20,
   },
-  cancelButton: {
-    flex: 1,
-    backgroundColor: "#f4f4f4",
-    padding: 12,
-    borderRadius: 8,
-    marginRight: 5,
-    alignItems: "center",
-    justifyContent: "center",
-  },
+ 
   placeholderText: {
     color: "gray",
     fontStyle: "italic",

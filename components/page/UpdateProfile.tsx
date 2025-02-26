@@ -11,12 +11,14 @@ import {
   ImageBackground,
   TouchableWithoutFeedback,
   Keyboard,
+  Modal,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
+
 
 import { set } from "date-fns";
 import { LinearGradient } from "expo-linear-gradient";
@@ -29,6 +31,7 @@ export const UpdateProfile: FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isEditable, setIsEditable] = useState<boolean>(false);
   const navigation = useNavigation<NavigationProp<any>>();
+  const [modalVisible, setModalVisible] = useState(false); // สร้าง state สำหรับ Modal
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -238,6 +241,50 @@ export const UpdateProfile: FC = () => {
     } finally {
       setIsLoading(false);
     }
+
+    // ฟังก์ชันลบบัญชี
+    const handleDeleteAccount= async() => {
+      try {
+        const user_id = await AsyncStorage.getItem("userId");
+        const token = await AsyncStorage.getItem("userToken");
+        const response = await fetch(
+          `https://senior-test-deploy-production-1362.up.railway.app/api/assessments/assessments-get-details/${child.child_id}/GM/${user_id}/${childAgeInMonths}`,
+          {
+            method: "DELETE ",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.ok) {
+          await AsyncStorage.removeItem("userToken");
+          await AsyncStorage.removeItem("userRole");
+          await AsyncStorage.removeItem("userId");
+        await AsyncStorage.removeItem("profilePic"); // เคลียร์รูปที่ Cache
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "welcome" }],
+      });
+
+          
+        } else {
+          setError(
+            `Failed to fetch assessment data. Status: ${response.status}`
+          );
+         
+        }
+      } catch (error) {
+        setError(
+          "Error fetching assessment data. Please check your connection."
+        );
+       
+      }
+    setModalVisible(false); // ปิด Popup
+    Alert.alert("ลบสำเร็จ", "ข้อมูลบัญชีถูกลบแล้ว");
+    // สามารถเพิ่มโค้ด API เพื่อลบข้อมูลบัญชีที่นี่
+  };
   };
 
   // navigate goBack
@@ -347,13 +394,44 @@ export const UpdateProfile: FC = () => {
         
         
 
-        <View style={styles.deleteAccount}>
-              <Image 
-                  source={require("../../assets/icons/delete.png")}
-                  style={styles.deleteAccountIcon}
-                  resizeMode="contain"
-              />
-        </View>
+        <Pressable style={styles.deleteAccount} onPress={() => setModalVisible(true)}>
+          <Image 
+            source={require("../../assets/icons/delete.png")}
+            style={styles.deleteAccountIcon}
+            resizeMode="contain"
+          />
+        </Pressable>
+
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(false)}
+        >
+          <View style={styles.modalBackground}>
+            <View style={styles.modalContainer}>
+              <Text style={styles.modalText}>คุณต้องการลบบัญชีใช่หรือไม่?</Text>
+
+              <View style={styles.modalButtonContainer}>
+                {/* ปุ่มยกเลิก */}
+                <Pressable
+                  style={[styles.modalButton, styles.cancelButton]}
+                  onPress={() => setModalVisible(false)}
+                >
+                  <Text style={styles.buttonText}>ยกเลิก</Text>
+                </Pressable>
+
+                {/* ปุ่มยืนยันลบ */}
+                <Pressable
+                  style={[styles.modalButton, styles.confirmButton]}
+                  //onPress={handleDeleteAccount}
+                >
+                  <Text style={styles.buttonText}>ยืนยัน</Text>
+                </Pressable>
+              </View>
+            </View>
+          </View>
+        </Modal>
         </ImageBackground>
       </SafeAreaProvider>
     </TouchableWithoutFeedback>
@@ -471,6 +549,50 @@ deleteAccountIcon:{
   //borderWidth:1,
 
 },
+
+modalBackground: {
+  flex: 1,
+  justifyContent: "center",
+  alignItems: "center",
+  backgroundColor: "rgba(0, 0, 0, 0.5)", // พื้นหลังโปร่งใส
+},
+modalContainer: {
+  width: 300,
+  padding: 20,
+  backgroundColor: "#fff",
+  borderRadius: 10,
+  alignItems: "center",
+  shadowColor: "#000",
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.25,
+  shadowRadius: 4,
+  elevation: 5,
+},
+modalText: {
+  fontSize: 18,
+  textAlign: "center",
+  marginBottom: 15,
+},
+modalButtonContainer: {
+  flexDirection: "row",
+  justifyContent: "space-between",
+  width: "100%",
+},
+modalButton: {
+  flex: 1,
+  padding: 10,
+  borderRadius: 8,
+  alignItems: "center",
+  marginHorizontal: 5,
+},
+cancelButton: {
+  backgroundColor: "#FFB6B6",
+},
+confirmButton: {
+  backgroundColor: "#CAEEE1",
+ 
+},
+
 
   //---------------------------------------------------------------------------------------------
   //avatar

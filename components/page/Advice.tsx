@@ -17,6 +17,7 @@ import * as Location from "expo-location";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { LoadingScreenAdvice } from "../LoadingScreen";
+import { LoadingScreenLocation } from "../LoadingScreen";
 
 // === ( HospitalData ) ===
 interface HospitalData {
@@ -126,7 +127,7 @@ export const Advice: FC = () => {
 
   // === ( LoadingScreen ) ===
   if (loading) {
-    return <LoadingScreenAdvice />;
+    return <LoadingScreenLocation />;
   }
 
   return (
