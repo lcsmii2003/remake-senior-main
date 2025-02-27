@@ -242,50 +242,54 @@ export const UpdateProfile: FC = () => {
       setIsLoading(false);
     }
 
-    // ฟังก์ชันลบบัญชี
-    const handleDeleteAccount= async() => {
-      try {
-        const user_id = await AsyncStorage.getItem("userId");
-        const token = await AsyncStorage.getItem("userToken");
-        const response = await fetch(
-          `https://senior-test-deploy-production-1362.up.railway.app/api/assessments/assessments-get-details/${child.child_id}/GM/${user_id}/${childAgeInMonths}`,
-          {
-            method: "DELETE ",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+    
+  };
 
-        if (response.ok) {
-          await AsyncStorage.removeItem("userToken");
-          await AsyncStorage.removeItem("userRole");
-          await AsyncStorage.removeItem("userId");
-        await AsyncStorage.removeItem("profilePic"); // เคลียร์รูปที่ Cache
-      navigation.reset({
-        index: 0,
-        routes: [{ name: "welcome" }],
-      });
-
-          
-        } else {
-          setError(
-            `Failed to fetch assessment data. Status: ${response.status}`
-          );
-         
-        }
-      } catch (error) {
-        setError(
-          "Error fetching assessment data. Please check your connection."
-        );
-       
+  // ฟังก์ชันลบบัญชี
+  const handleDeleteAccount = async () => {
+    try {
+      const user_id = await AsyncStorage.getItem("userId");
+      const token = await AsyncStorage.getItem("userToken");
+  
+      if (!user_id) {
+        Alert.alert("Error", "User ID not found.");
+        return;
       }
-    setModalVisible(false); // ปิด Popup
-    Alert.alert("ลบสำเร็จ", "ข้อมูลบัญชีถูกลบแล้ว");
-    // สามารถเพิ่มโค้ด API เพื่อลบข้อมูลบัญชีที่นี่
+  
+      const response = await fetch(
+        `https://senior-test-deploy-production-1362.up.railway.app/api/profiles/delete-user/${user_id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      if (response.ok) {
+        // ลบข้อมูลบัญชีจาก AsyncStorage
+        await AsyncStorage.multiRemove(["userToken", "userRole", "userId", "profilePic"]);
+  
+        // นำทางไปหน้า Welcome และล้าง Stack
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "welcome" }],
+        });
+  
+        Alert.alert("ลบสำเร็จ", "ข้อมูลบัญชีถูกลบแล้ว");
+      } else {
+        console.error(`Failed to delete account. Status: ${response.status}`);
+        Alert.alert("Error", `Failed to delete account. Status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error("Error deleting account:", error);
+      Alert.alert("Error", "เกิดข้อผิดพลาดในการลบบัญชี โปรดลองอีกครั้ง");
+    } finally {
+      setModalVisible(false);
+    }
   };
-  };
+  
 
   // navigate goBack
   const goBack = () => {
@@ -424,7 +428,7 @@ export const UpdateProfile: FC = () => {
                 {/* ปุ่มยืนยันลบ */}
                 <Pressable
                   style={[styles.modalButton, styles.confirmButton]}
-                  //onPress={handleDeleteAccount}
+                  onPress={handleDeleteAccount}
                 >
                   <Text style={styles.buttonText}>ยืนยัน</Text>
                 </Pressable>

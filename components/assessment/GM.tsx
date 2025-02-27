@@ -19,7 +19,7 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { Child } from "../page/HomePR";
-import { LoadingScreenBook } from "../LoadingScreen";
+import { LoadingScreenAdvice, LoadingScreenBook } from "../LoadingScreen";
 import { LinearGradient } from "expo-linear-gradient";
 
 type GMRouteProp = RouteProp<{ assessment: { child: Child } }, "assessment">;
@@ -365,111 +365,116 @@ export const GM: FC = () => {
       </View>
 
       {/* Mid Section */}
-      
       <View style={styles.midSection}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.containerSection}>
-            {loading ? (
-              <LoadingScreenBook />
-            ) : error ? (
-              <Text style={styles.errorText}>{error}</Text>
-            ) : (
-              <>
-                {/* assessment header */}
-                <View style={styles.headerTextContainer}>
-                  <Text style={styles.headerText}>Gross Motor (GM)</Text>
-                  <Text style={styles.headerAgeContainer}>
-                    อายุพัฒนาการ:{" "}
-                    {assessmentDetails?.age_range
-                      ? calculateAgeRange(
-                          ...(assessmentDetails.age_range
-                            .split("-")
-                            .map(Number) as [number, number])
-                        )
-                      : "ข้อมูลไม่สมบูรณ์"}
-                  </Text>
-                </View>
-
-                {/* assessment rank */}
-                <View style={styles.assessmentTop}>
-                  <View style={styles.assessmentNumberContainer}>
-                    <Text style={styles.assessmentNumber}>
-                      {assessmentDetails?.assessment_details_id}
-                    </Text>
-                  </View>
-                  <Text style={styles.assessmentTitle}>
-                    {assessmentDetails?.assessment_name ?? "ไม่มีข้อมูล"}
-                  </Text>
-                </View>
-
-                {assessmentDetails?.assessment_image && (
-                  <Image
-                    source={getImageSource(assessmentDetails.assessment_image)}
-                    style={styles.assessmentLogo}
-                  />
-                )}
-
-                {/* assessment device */}
-                {assessmentDetails &&
-                  (assessmentDetails.assessment_device_name !== "none" ||
-                    assessmentDetails.assessment_device_image !== "none" ||
-                    assessmentDetails.assessment_device_detail !== "none") &&
-                  renderAssessmentDevice()}
-
-                {/* assessment how to */}
-                <View style={styles.assessmentHowto}>
-                  <Text style={styles.headerHowto}>วิธีการประเมิน</Text>
-                  <Text style={styles.howtoText}>
-                    {assessmentDetails?.assessment_method ?? "ไม่มีข้อมูล"}
-                  </Text>
-                </View>
-              </>
-            )}
-          </View>
-
-          {/* assessment result */}
-          <View style={styles.assessmentResult}>
-            <View style={styles.headerResultContainer}>
-              <Text style={styles.headerResult}>ผลการประเมิน</Text>
-            </View>
-            <Text style={styles.resultText}>
-              {assessmentDetails?.assessment_succession ?? "ไม่มีข้อมูล"}
+  <ScrollView showsVerticalScrollIndicator={false}>
+    {loading ? (
+      <LoadingScreenBook />
+    ) : error ? (
+      <Text style={styles.errorText}>{error}</Text>
+    ) : assessmentDetails ? ( // ✅ เช็คว่ามีข้อมูลการประเมินหรือไม่
+      <>
+        {/* assessment header */}
+        <View style={styles.containerSection}>
+          <View style={styles.headerTextContainer}>
+            <Text style={styles.headerText}>Gross Motor (GM)</Text>
+            <Text style={styles.headerAgeContainer}>
+              อายุพัฒนาการ:{" "}
+              {assessmentDetails?.age_range
+                ? calculateAgeRange(
+                    ...(assessmentDetails.age_range
+                      .split("-")
+                      .map(Number) as [number, number])
+                  )
+                : "ข้อมูลไม่สมบูรณ์"}
             </Text>
-
-            <View style={styles.resultButtonCantainer}>
-              <Pressable
-                style={styles.yesButton}
-                onPress={() => {
-                  if (assessmentInsert) {
-                    console.log(
-                      "Calling fetchNextAssessment with assessmentInsert_id:",
-                      assessmentInsert.assessment_id
-                    );
-                    fetchNextAssessment(
-                      child.child_id,
-                      "GM",
-                      assessmentInsert.assessment_id,
-                      userId?.user_id ?? 0
-                    );
-                  } else {
-                    console.log("assessmentInsert is null or undefined");
-                  }
-                }}
-              >
-                <Text>ได้</Text>
-              </Pressable>
-              <Pressable
-                style={styles.noButton}
-                onPress={() =>
-                  assessmentDetails && whenGotoTraining(assessmentDetails)
-                }
-              >
-                <Text>ไม่ได้</Text>
-              </Pressable>
-            </View>
           </View>
-        </ScrollView>
+
+          {/* assessment rank */}
+          <View style={styles.assessmentTop}>
+            <View style={styles.assessmentNumberContainer}>
+              <Text style={styles.assessmentNumber}>
+                {assessmentDetails?.assessment_details_id}
+              </Text>
+            </View>
+            <Text style={styles.assessmentTitle}>
+              {assessmentDetails?.assessment_name ?? "ไม่มีข้อมูล"}
+            </Text>
+          </View>
+
+          {assessmentDetails?.assessment_image && (
+            <Image
+              source={getImageSource(assessmentDetails.assessment_image)}
+              style={styles.assessmentLogo}
+            />
+          )}
+
+          {/* assessment device */}
+          {assessmentDetails &&
+            (assessmentDetails.assessment_device_name !== "none" ||
+              assessmentDetails.assessment_device_image !== "none" ||
+              assessmentDetails.assessment_device_detail !== "none") &&
+            renderAssessmentDevice()}
+
+          {/* assessment how to */}
+          <View style={styles.assessmentHowto}>
+            <Text style={styles.headerHowto}>วิธีการประเมิน</Text>
+            <Text style={styles.howtoText}>
+              {assessmentDetails?.assessment_method ?? "ไม่มีข้อมูล"}
+            </Text>
+          </View>
+        </View>
+
+        {/* assessment result */}
+        <View style={styles.assessmentResult}>
+          <View style={styles.headerResultContainer}>
+            <Text style={styles.headerResult}>ผลการประเมิน</Text>
+          </View>
+          <Text style={styles.resultText}>
+            {assessmentDetails?.assessment_succession ?? "ไม่มีข้อมูล"}
+          </Text>
+
+          <View style={styles.resultButtonCantainer}>
+            <Pressable
+              style={styles.yesButton}
+              onPress={() => {
+                if (assessmentInsert) {
+                  console.log(
+                    "Calling fetchNextAssessment with assessmentInsert_id:",
+                    assessmentInsert.assessment_id
+                  );
+                  fetchNextAssessment(
+                    child.child_id,
+                    "GM",
+                    assessmentInsert.assessment_id,
+                    userId?.user_id ?? 0
+                  );
+                } else {
+                  console.log("assessmentInsert is null or undefined");
+                }
+              }}
+            >
+              <Text>ได้</Text>
+            </Pressable>
+            <Pressable
+              style={styles.noButton}
+              onPress={() =>
+                assessmentDetails && whenGotoTraining(assessmentDetails)
+              }
+            >
+              <Text>ไม่ได้</Text>
+            </Pressable>
+          </View>
+        </View>
+      </>
+    ) : (
+      // ✅ ถ้าไม่มีข้อมูลให้แสดงข้อความนี้
+      <View >
+        <Text >การประเมินทั้งหมดเสร็จแล้ว</Text>
       </View>
+    )}
+  </ScrollView>
+</View>
+
 
       {/* Bottom Section */}
       <View style={styles.bottomSection}>

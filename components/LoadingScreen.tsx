@@ -31,6 +31,19 @@ export const LoadingScreenCuteBaby = () => {
   );
 };
 
+export const LoadingScreenToy = () => {
+  return (
+    <View style={styles.container}>
+      <LottieView
+        source={require("../assets/logo/lottie/toy.json")}
+        autoPlay
+        loop
+        style={styles.toyloading}
+      />
+      </View>
+  );
+};
+
 export const LoadingScreenHello = () => {
   return (
     <View style={styles.container}>
@@ -39,6 +52,18 @@ export const LoadingScreenHello = () => {
         autoPlay
         loop
         style={styles.helloloading}
+      />
+      </View>
+  );
+};
+export const LoadingScreenWelcome = () => {
+  return (
+    <View style={styles.container}>
+      <LottieView
+        source={require("../assets/logo/lottie/welcome.json")}
+        autoPlay
+        loop
+        style={styles.welcomeloading}
       />
       </View>
   );
@@ -141,6 +166,16 @@ const styles = StyleSheet.create({
   },
 
   helloloading:{
+    width: 400,
+    height: 400,
+
+  },
+  welcomeloading:{
+    width: 250,
+    height: 250,
+
+  },
+  toyloading:{
     width: 400,
     height: 400,
 

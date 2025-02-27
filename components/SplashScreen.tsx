@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
-import { LoadingScreenHello } from "../components/LoadingScreen";
+import { LoadingScreenHello, LoadingScreenToy, LoadingScreenWelcome } from "../components/LoadingScreen";
 
 export const SplashScreen: FC = () => {
   const navigation = useNavigation<NavigationProp<any>>();
@@ -56,12 +56,12 @@ export const SplashScreen: FC = () => {
       <View style={styles.container}>
         {/* แสดง Loading ก่อน */}
         <View style={styles.helloLoading}>
-          <LoadingScreenHello />
+          <LoadingScreenWelcome />
         </View>
 
         {/* แสดง Header & Title พร้อม Fade-in Animation */}
         <Animated.View style={[styles.textContainer, { opacity: fadeAnim }]}>
-          <Text style={styles.title}>Welcome to</Text>
+          <Text style={styles.title}>to</Text>
           <Text style={styles.header}>DekDek</Text>
         </Animated.View>
 
@@ -88,8 +88,8 @@ const styles = StyleSheet.create({
     height: 100,
   },
   textContainer: {
-    flexDirection: "row", // จัดเรียง title และ header ในบรรทัดเดียวกัน
-    alignItems: "baseline", // จัดให้ baseline ของตัวอักษรตรงกัน
+    flexDirection: "column", // จัดเรียง title และ header ในบรรทัดเดียวกัน
+    alignItems: "center", // จัดให้ baseline ของตัวอักษรตรงกัน
     marginTop: 10,
   },
   title: {

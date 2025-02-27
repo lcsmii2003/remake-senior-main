@@ -314,7 +314,9 @@ export const HomePR: FC = () => {
           <View style={styles.midSection}>
             <ScrollView showsVerticalScrollIndicator={false} style={styles.ScrollView}>
               {children.length === 0 ? (
-                <View style={styles.howtousesection}></View>
+                <View style={styles.howtousesection}>
+                  <Text>test</Text>
+                </View>
               ) : (
                 children.map((child) => (
                   <LinearGradient
