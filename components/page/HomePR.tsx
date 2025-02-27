@@ -25,6 +25,7 @@ import {
 } from "../../app/usePushNotifications";
 
 import { LoadingScreenBaby } from "../LoadingScreen";
+import LottieView from "lottie-react-native";
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -54,6 +55,7 @@ export interface AssessmentDetails {
   assessment_succession: string;
   assessmentInsert_id: number;
   child_id: number;
+  status: string;
 }
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -147,7 +149,7 @@ export const HomePR: FC = () => {
                   };
                 }
               );
-              // setChildren(updatedChildren);
+
               setTimeout(() => {
                 setChildren(updatedChildren);
                 setLoading(false);
@@ -157,7 +159,6 @@ export const HomePR: FC = () => {
                 (child: any) => child.assessments || []
               );
               setAssessmentDetails(allAssessments.flat());
-              // console.log("Assessments fetched:", allAssessments);
             } else {
               console.log("No children found.");
               setChildren([]);
@@ -191,53 +192,50 @@ export const HomePR: FC = () => {
   const renderAssessmentState = (childId: number) => {
     if (!assessmentDetails) {
       console.log("assessmentDetails is null or undefined");
-      return null; // Return null if assessmentDetails is not available
+      return null;
     }
-    // console.log("childId:", childId);
-    // console.log("assessmentDetails:", assessmentDetails);
 
-    // Filter the assessment details by childId to ensure we only display relevant data
     const childAssessmentDetails = children
       .filter((child) => child.child_id === childId)
       .flatMap((child) =>
         child.assessments.filter((detail) => detail.aspect !== "none")
       );
 
-    // If no assessment details for this child, return null (nothing to render)
     if (childAssessmentDetails.length === 0) {
       return null;
     }
 
     return (
       <View style={styles.stateContainer}>
-        {/* Loop through each aspect and filter corresponding details */}
         {["GM", "FM", "RL", "EL", "PS"].map((aspect) => {
           const filteredDetails = childAssessmentDetails.filter(
             (detail) => detail.aspect === aspect && detail.aspect !== "none"
           );
 
-          // If there are no details for this aspect, skip rendering
           if (filteredDetails.length === 0) return null;
 
           return (
             <View key={aspect}>
-              {/* Render each detail for this aspect */}
               {filteredDetails.map((detail) => (
                 <View
                   key={detail.assessment_details_id}
                   style={styles.assessmentsState}
                 >
-                  {/* Render the icon for the current aspect */}
-                  {/* <Image source={aspectImage} style={styles.stateIcon} /> */}
                   <View style={styles.aspectName}>
-                    <Text style={styles.textaspectName}>
-                      {detail.aspect}
-                    </Text>
+                    <Text style={styles.textaspectName}>{detail.aspect}</Text>
                   </View>
+
                   <View style={styles.stateNumber}>
-                    <Text style={styles.textState}>
-                      {detail.assessment_details_id}
-                    </Text>
+                    {detail.status === "passed_all" ? (
+                      <LottieView
+                        source={require("../../assets/logo/lottie/checkmark.json")}
+                        style={styles.checkmarkIcon}
+                      />
+                    ) : (
+                      <Text style={styles.textState}>
+                        {detail.assessment_details_id}
+                      </Text>
+                    )}
                   </View>
                 </View>
               ))}
@@ -256,10 +254,8 @@ export const HomePR: FC = () => {
   };
 
   const whenGotoDetail = (child: Child, assessment: AssessmentDetails[]) => {
-    navigation.navigate("childdetail", { child , assessment});
-};
-
-
+    navigation.navigate("childdetail", { child, assessment });
+  };
 
   const whenGotoAssessment = (child: Child) => {
     navigation.navigate("assessment", { child });
@@ -282,13 +278,13 @@ export const HomePR: FC = () => {
           <View style={styles.startassessmentsSection}>
             <Pressable onPress={whenGotoChooseChild}>
               <LinearGradient
-                colors={["#FFFFFF", "#c7eedb"] }
+                colors={["#FFFFFF", "#c7eedb"]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 0, y: 1.5 }}
                 style={styles.evaluateButton}
               >
                 <Image
-                  source={require("../../assets/icons/self-improvement (1).png")}
+                  source={require("../../assets/icons/self-improvement_1.png")}
                   style={styles.asessmentIcon}
                 />
                 <Text style={styles.evaluateText}>เริ่มการประเมิน</Text>
@@ -296,39 +292,44 @@ export const HomePR: FC = () => {
             </Pressable>
 
             <Pressable onPress={whenGotoAddChild}>
-              <LinearGradient 
-                colors={["#CEC9FF",  "#F5E5FF"] }
+              <LinearGradient
+                colors={["#CEC9FF", "#F5E5FF"]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 2 }}
-                style={styles.addchildButton} >
-              <Image
-              source={require("../../assets/icons/addchild.png")}
-              style={styles.addchildIcon}
-              />
+                style={styles.addchildButton}
+              >
+                <Image
+                  source={require("../../assets/icons/addchild.png")}
+                  style={styles.addchildIcon}
+                />
               </LinearGradient>
-             </Pressable>
+            </Pressable>
           </View>
-          
 
           {/* Child data Section */}
           <View style={styles.midSection}>
-            <ScrollView showsVerticalScrollIndicator={false} style={styles.ScrollView}>
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              style={styles.ScrollView}
+            >
               {children.length === 0 ? (
-                <View style={styles.howtousesection}>
-                  <Text>test</Text>
-                </View>
+                <View style={styles.howtousesection}></View>
               ) : (
                 children.map((child) => (
                   <LinearGradient
                     key={child.child_id}
                     colors={
                       child.gender === "male"
-                        ? ["#fff", "#E7F6FF","#D6ECFD"]  // ไล่สีฟ้าสำหรับเด็กผู้ชาย
-                        :["#fff", "#FFDEE4","#FFBED6"]  // ไล่สีชมพูสำหรับเด็กผู้หญิง
+                        ? ["#fff", "#E7F6FF", "#D6ECFD"] // ไล่สีฟ้าสำหรับเด็กผู้ชาย
+                        : ["#fff", "#FFDEE4", "#FFBED6"] // ไล่สีชมพูสำหรับเด็กผู้หญิง
                     }
                     start={{ x: 0, y: 0 }}
                     end={{ x: 1, y: 1 }}
-                    style={child.gender === "male" ? styles.profileCardBoy : styles.profileCardGirl}
+                    style={
+                      child.gender === "male"
+                        ? styles.profileCardBoy
+                        : styles.profileCardGirl
+                    }
                   >
                     <View style={styles.profileCard}>
                       <View style={styles.profileInfo}>
@@ -364,9 +365,14 @@ export const HomePR: FC = () => {
                             ? styles.detailsButtonBoy
                             : styles.detailsButtonGirl
                         }
-                        onPress={() => whenGotoDetail(child, assessmentDetails.filter(a => a.child_id === child.child_id))}
-                        
-
+                        onPress={() =>
+                          whenGotoDetail(
+                            child,
+                            assessmentDetails.filter(
+                              (a) => a.child_id === child.child_id
+                            )
+                          )
+                        }
                       >
                         <Text style={styles.detailsText}>ดูรายละเอียด</Text>
                       </Pressable>
@@ -403,8 +409,8 @@ const styles = StyleSheet.create({
   },
   addchildButton: {
     marginTop: 15, // เพิ่มระยะห่างจากปุ่ม Start Assessment
-    width:350,
-    paddingVertical:7,
+    width: 350,
+    paddingVertical: 7,
     borderRadius: 50,
     alignItems: "center",
     shadowColor: "#646464",
@@ -422,7 +428,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 15,
     elevation: 5,
-    
   },
 
   // ---------------------------------------------------------------------------------------------
@@ -445,16 +450,15 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     width: 350,
     height: "auto",
-    marginTop:5,
-    marginBottom:10,
-    marginLeft:"auto",
-    marginRight:"auto",
+    marginTop: 5,
+    marginBottom: 10,
+    marginLeft: "auto",
+    marginRight: "auto",
     shadowColor: "#848484",
     shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 0.2,
     shadowRadius: 15,
     elevation: 5,
-    
   },
   profileCardGirl: {
     flexDirection: "row",
@@ -464,10 +468,10 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     width: 350,
     height: "auto",
-    marginTop:5,
-    marginBottom:10,
-    marginLeft:"auto",
-    marginRight:"auto",
+    marginTop: 5,
+    marginBottom: 10,
+    marginLeft: "auto",
+    marginRight: "auto",
     shadowColor: "#848484",
     shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 0.2,
@@ -479,9 +483,9 @@ const styles = StyleSheet.create({
     width: 64,
     height: 64,
     marginTop: 5,
-   // marginVertical:5,
+    // marginVertical:5,
     borderRadius: 50,
-    marginLeft:10,
+    marginLeft: 10,
     //marginHorizontal:10,
   },
   profileInfo: {
@@ -505,8 +509,8 @@ const styles = StyleSheet.create({
   detailsButtonGirl: {
     width: "80%",
     marginLeft: "auto",
-    marginRight:"auto",
-    marginTop:10,
+    marginRight: "auto",
+    marginTop: 10,
     //marginTop: 9,
     backgroundColor: "#FFA2C4",
     paddingVertical: 6,
@@ -518,13 +522,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 10,
     elevation: 5,
-
   },
   detailsButtonBoy: {
     width: "80%",
     marginLeft: "auto",
-    marginRight:"auto",
-    marginTop:10,
+    marginRight: "auto",
+    marginTop: 10,
     //marginTop: 9,
     backgroundColor: "#98D4FF",
     paddingVertical: 6,
@@ -577,10 +580,9 @@ const styles = StyleSheet.create({
     height: "40%",
     //borderWidth: 1,
     paddingHorizontal: 10, // เพิ่ม padding ซ้าย-ขวาให้บาลานซ์ขึ้น
-    
-},
+  },
 
-assessmentsState: {
+  assessmentsState: {
     alignItems: "center",
     justifyContent: "center",
     width: 60,
@@ -593,18 +595,18 @@ assessmentsState: {
     shadowOpacity: 0.2,
     shadowRadius: 10,
     elevation: 5,
-    marginLeft:1.5,
-},
+    marginLeft: 1.5,
+  },
 
-textState: {
+  textState: {
     fontSize: 16,
     color: "#000000",
     textAlign: "center",
-    marginLeft:"auto",
-    marginRight:"auto",
-},
+    marginLeft: "auto",
+    marginRight: "auto",
+  },
 
-aspectName: {
+  aspectName: {
     textAlign: "center",
     width: 55,
     height: 28,
@@ -613,15 +615,15 @@ aspectName: {
     backgroundColor: "#8DD9BD",
     justifyContent: "center",
     alignItems: "center", // ให้ text อยู่กึ่งกลาง
-},
+  },
 
-textaspectName: {
+  textaspectName: {
     fontSize: 16,
     color: "#fff",
     textAlign: "center",
-},
+  },
 
-stateNumber: {
+  stateNumber: {
     width: 55,
     height: 30,
     borderBottomRightRadius: 10,
@@ -629,8 +631,7 @@ stateNumber: {
     backgroundColor: "#FFF",
     justifyContent: "center",
     alignItems: "center", // ให้ text อยู่กึ่งกลาง
-    
-},
+  },
 
   // ---------------------------------------------------------------------------------------------
 
@@ -639,13 +640,12 @@ stateNumber: {
     width: "85%",
     height: "auto",
     marginTop: 15,
-    marginBottom:10,
+    marginBottom: 10,
     // shadowColor: "#000",
     // shadowOffset: { width: 0, height: 5 },
     // shadowOpacity: 0.2,
     // shadowRadius: 3,
     // elevation: 4,
-    
   },
   evaluateButton: {
     backgroundColor: "#ccfff5",
@@ -661,7 +661,6 @@ stateNumber: {
     shadowOpacity: 0.5,
     shadowRadius: 5,
     elevation: 5,
-    
   },
   asessmentIcon: {
     width: 65,
@@ -788,5 +787,9 @@ stateNumber: {
   TextIntro: {
     fontSize: 16,
     fontWeight: "bold",
+  },
+  checkmarkIcon: {
+    width: 24,
+    height: 24,
   },
 });

@@ -40,7 +40,7 @@ export const LoadingScreenToy = () => {
         loop
         style={styles.toyloading}
       />
-      </View>
+    </View>
   );
 };
 
@@ -53,7 +53,7 @@ export const LoadingScreenHello = () => {
         loop
         style={styles.helloloading}
       />
-      </View>
+    </View>
   );
 };
 export const LoadingScreenWelcome = () => {
@@ -65,7 +65,7 @@ export const LoadingScreenWelcome = () => {
         loop
         style={styles.welcomeloading}
       />
-      </View>
+    </View>
   );
 };
 
@@ -116,6 +116,7 @@ export const LoadingScreenSearchfile = () => {
     </View>
   );
 };
+
 export const LoadingScreenBook = () => {
   return (
     <View style={styles.container}>
@@ -141,8 +142,20 @@ export const LoadingScreenLocation = () => {
         loop
         style={styles.assessmentLottie}
       />
-       <Text style={styles.text}>กำลังค้นหาสถานพยาบาลใกล้คุณ...</Text>
-       <Text style={styles.subText}>กำลังดึงข้อมูลอยู่ กรุณารอสักครู่</Text>
+      <Text style={styles.text}>กำลังค้นหาสถานพยาบาลใกล้คุณ...</Text>
+      <Text style={styles.subText}>กำลังดึงข้อมูลอยู่ กรุณารอสักครู่</Text>
+    </View>
+  );
+};
+export const LoadingScreenPassAll = () => {
+  return (
+    <View style={styles.container}>
+      <LottieView
+        source={require("../assets/logo/lottie/passAll.json")}
+        autoPlay
+        loop
+        style={styles.assessmentLottie}
+      />
     </View>
   );
 };
@@ -154,33 +167,34 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     //backgroundColor: "#fff",
-    
+
   },
+  
 
   cutebabyloading: {
     //flex: 1,
     justifyContent: "center",
     alignItems: "center",
     //backgroundColor: "#fff",
-    
+
   },
 
-  helloloading:{
+  helloloading: {
     width: 400,
     height: 400,
 
   },
-  welcomeloading:{
+  welcomeloading: {
     width: 250,
     height: 250,
 
   },
-  toyloading:{
+  toyloading: {
     width: 400,
     height: 400,
 
   },
-  baby:{
+  baby: {
     width: 200,
     height: 200,
   },
@@ -205,7 +219,6 @@ const styles = StyleSheet.create({
   assessmentLottie: {
     width: 200,
     height: 200,
-    
   },
   assessmentText: {
     marginTop: 5,
