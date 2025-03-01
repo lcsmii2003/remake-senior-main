@@ -85,16 +85,17 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: 100,
-    height: 100,
+    height: 60,
   },
   textContainer: {
     flexDirection: "column", // จัดเรียง title และ header ในบรรทัดเดียวกัน
     alignItems: "center", // จัดให้ baseline ของตัวอักษรตรงกัน
-    marginTop: 10,
+    marginTop:5,
   },
   title: {
-    fontSize: 18,
+    fontSize: 20,
     color: "#000",
+    marginBottom:5,
   },
   header: {
     fontSize: 30,

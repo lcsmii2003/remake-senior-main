@@ -230,6 +230,8 @@ export const HomePR: FC = () => {
                       <LottieView
                         source={require("../../assets/logo/lottie/checkmark.json")}
                         style={styles.checkmarkIcon}
+                        autoPlay
+                        loop
                       />
                     ) : (
                       <Text style={styles.textState}>

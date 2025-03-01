@@ -150,10 +150,10 @@ export const Setting: FC = () => {
             <Icon name="chevron-right" size={15} color="#000" />
           </Pressable>
           {/* Download Button */}
-          <Pressable style={styles.downloadButton}>
+          {/* <Pressable style={styles.downloadButton}>
             <Text style={styles.downloadText}>ดาวน์โหลดข้อมูลการประเมิน</Text>
             <Icon name="download" size={20} color="#4CAF50" />
-          </Pressable>
+          </Pressable> */}
         </View>
       </View>
       {/* Logout Button */}
@@ -182,18 +182,20 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: "40%",
     left: "36%",
-    bottom: "100%",
+    bottom: "95%",
     alignItems: "center",
+    //borderWidth:1,
   },
   avatar: {
     width: "100%",
-    height: 125,
+    height: 140,
     borderRadius: 100,
     backgroundColor: "#E5E7EB",
+    //borderWidth:1,
   },
   usernameSection: {
     width: "100%",
-    top: 40,
+    top: 50,
     alignItems: "center",
   },
   usernameContainer: {
