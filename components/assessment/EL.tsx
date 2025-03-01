@@ -18,7 +18,7 @@ import {
 } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { Child } from "../page/HomePR";
+import { Child } from "../page/PR/HomePR";
 import { LoadingScreenBook, LoadingScreenPassAll } from "../LoadingScreen";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -256,7 +256,7 @@ export const EL: FC = () => {
 
     "setE.png": require("../../assets/assessment/Device/setE.png"),
     "sanimalfoodclothes.jpg": require("../../assets/assessment/Device/animalfoodclothes.jpg"),
-    "chickenbutterflyflower.png": require("../../assets/assessment/Device/chickenbutterflyflower.png"),
+    "chickenbutterflyflower.png": require("../../assets/assessment/Device/ck_btf_flw.jpg"),
     "doll.png": require("../../assets/assessment/Device/doll.png"),
     "animalfoodclothes.jpg": require("../../assets/assessment/Device/animalfoodclothes.jpg"),
     "card.png": require("../../assets/assessment/Device/card.png"),
@@ -424,10 +424,10 @@ export const EL: FC = () => {
             ) : (
               <View style={styles.passAllAssessDetailcontainer}>
                 <View style={styles.headerPassAllTextContainer}>
-                  <Text style={styles.headerPassAllText}>Gross Motor (GM)</Text>
+                  <Text style={styles.headerPassAllText}>Expressive Language (EL)</Text>
                 </View>
                 <Text style={styles.titlePassAllText}>คุณได้ทำการประเมินในด้านนี้ครบทุกข้อแล้ว</Text>
-                <LoadingScreenPassAll/>
+                <LoadingScreenPassAll />
                 <Text style={styles.PassAllText}>สามารถทำการประเมินในด้านอื่น ๆ ได้เลยค่ะ/ครับ</Text>
               </View>
             )}
@@ -435,7 +435,7 @@ export const EL: FC = () => {
 
           {/* assessment result */}
           {loading ? (
-            <LoadingScreenBook />
+            <></>
           ) :
             assessmentDetails ? (
               <View style={styles.assessmentResult}>
@@ -925,7 +925,7 @@ const styles = StyleSheet.create({
     height: "20%",
     backgroundColor: "white",
     //borderWidth: 1,
-  }, 
+  },
   // ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
   buttonContainer: {

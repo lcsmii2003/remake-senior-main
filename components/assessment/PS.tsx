@@ -18,7 +18,7 @@ import {
 } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { Child } from "../page/HomePR";
+import { Child } from "../page/PR/HomePR";
 import { LoadingScreenBook, LoadingScreenPassAll } from "../LoadingScreen";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -260,7 +260,7 @@ export const PS: FC = () => {
     "setD.png": require("../../assets/assessment/Device/setD.png"),
     "cup.png": require("../../assets/assessment/Device/cup.png"),
     "setH.png": require("../../assets/assessment/Device/setH.png"),
-    //"toothbrushtoothpaste.png": require("../../assets/assessment/Device/toothbrushtoothpaste.png"),
+    "toothbrushtoothpaste.png": require("../../assets/assessment/Device/Toothbrushtoothpaste.png"),
 
 
 
@@ -425,7 +425,7 @@ export const PS: FC = () => {
             ) : (
               <View style={styles.passAllAssessDetailcontainer}>
                 <View style={styles.headerPassAllTextContainer}>
-                  <Text style={styles.headerPassAllText}>Gross Motor (GM)</Text>
+                  <Text style={styles.headerPassAllText}>Personal and Social (PS)</Text>
                 </View>
                 <Text style={styles.titlePassAllText}>คุณได้ทำการประเมินในด้านนี้ครบทุกข้อแล้ว</Text>
                 <LoadingScreenPassAll />
@@ -436,7 +436,7 @@ export const PS: FC = () => {
 
           {/* assessment result */}
           {loading ? (
-            <LoadingScreenBook />
+           <></>
           ) :
             assessmentDetails ? (
               <View style={styles.assessmentResult}>

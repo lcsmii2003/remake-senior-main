@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import LottieView from "lottie-react-native";
-import { Assessment } from "./page/Assessment";
+import { Assessment } from "./page/PR/Assessment";
 
 export const LoadingScreenAdvice = () => {
   return (
@@ -160,6 +160,19 @@ export const LoadingScreenPassAll = () => {
   );
 };
 
+export const LoadingScreenSendApprove = () => {
+  return (
+    <View style={styles.SendApprovecontainer}>
+      <LottieView
+        source={require("../assets/logo/lottie/sendLetter.json")}
+        autoPlay
+        loop
+        style={styles.SendApproveLottie}
+      />
+    </View>
+  );
+};
+
 const styles = StyleSheet.create({
   // === Base ===
   container: {
@@ -169,7 +182,7 @@ const styles = StyleSheet.create({
     //backgroundColor: "#fff",
 
   },
-  
+
 
   cutebabyloading: {
     //flex: 1,
@@ -192,9 +205,9 @@ const styles = StyleSheet.create({
   toyloading: {
     width: 400,
     height: 400,
-
   },
   baby: {
+    // flex:1,
     width: 200,
     height: 200,
   },
@@ -229,5 +242,18 @@ const styles = StyleSheet.create({
     marginTop: 5,
     fontSize: 14,
     color: "#555",
+  },
+
+  // === SendApprove ===
+  SendApprovecontainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    // backgroundColor: "#fff",
+    height: 150,
+  },
+  SendApproveLottie: {
+    width: 150,
+    height: 150,
   },
 });

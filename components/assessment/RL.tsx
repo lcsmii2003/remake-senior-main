@@ -18,7 +18,7 @@ import {
 } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { Child } from "../page/HomePR";
+import { Child } from "../page/PR/HomePR";
 import { LoadingScreenBook, LoadingScreenPassAll } from "../LoadingScreen";
 import { autoBatchEnhancer } from "@reduxjs/toolkit";
 import { LinearGradient } from "expo-linear-gradient";
@@ -267,7 +267,7 @@ export const RL: FC = () => {
     "setG.png": require("../../assets/assessment/Device/setG.png"),
     "animalfoodclothes.jpg": require("../../assets/assessment/Device/animalfoodclothes.jpg"),
     "squaretrianglecircle.png": require("../../assets/assessment/Device/squaretrianglecircle.png"),
-    "daynightpics.png": require("../../assets/assessment/Device/daynightpics.png"),
+    "daynightpics.png": require("../../assets/assessment/Device/daynightpics.jpg"),
     "nitannaisuan.JPG": require("../../assets/assessment/Device/nitarnnaisuan.png"),
     "woodenandpaper.png": require("../../assets/assessment/Device/woodenandpaper.png"),
 
@@ -431,7 +431,7 @@ export const RL: FC = () => {
             ) : (
               <View style={styles.passAllAssessDetailcontainer}>
                 <View style={styles.headerPassAllTextContainer}>
-                  <Text style={styles.headerPassAllText}>Gross Motor (GM)</Text>
+                  <Text style={styles.headerPassAllText}>Receptive Language (RL)</Text>
                 </View>
                 <Text style={styles.titlePassAllText}>คุณได้ทำการประเมินในด้านนี้ครบทุกข้อแล้ว</Text>
                 <LoadingScreenPassAll />
@@ -442,7 +442,7 @@ export const RL: FC = () => {
 
           {/* assessment result */}
           {loading ? (
-            <LoadingScreenBook />
+            <></>
           ) :
             assessmentDetails ? (
               <View style={styles.assessmentResult}>

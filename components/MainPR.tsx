@@ -6,21 +6,15 @@ import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import Entypo from "@expo/vector-icons/Entypo";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-import { HomePR } from "./page/HomePR";
+import { HomePR } from "./page/PR/HomePR";
 import { Setting } from "./page/Setting";
 import { Notificate } from "./page/Notificate";
 import { Advice } from "./page/Advice";
 
-// Define your custom icon paths
-// const homeIcon = require("../assets/icons/homeIcon.png");
-// const adviceIcon = require("../assets/icons/adviceIcon.png");
-// const notificationIcon = require("../assets/icons/bellIcon.png");
-// const settingIcon = require("../assets/icons/settingIcon.png");
-
 const BottomTab = createBottomTabNavigator();
 
 export const MainPR: FC = () => {
-  const [notificationCount] = useState(10);
+  const [notificationCount, setNotificationCount] = useState(0);
   return (
     <>
       <BottomTab.Navigator
@@ -81,7 +75,6 @@ export const MainPR: FC = () => {
         />
         <BottomTab.Screen
           name="notificate"
-          component={Notificate}
           options={{
             tabBarIcon: ({ focused }) => (
               <View style={styles.tabItem}>
@@ -91,19 +84,40 @@ export const MainPR: FC = () => {
                   color={focused ? "#e64072" : "#888"}
                 />
                 {notificationCount > 0 && (
-                  <View style={styles.notificationBadge}>
-                    <Text style={styles.notificationText}>
+                  <View
+                    style={{
+                      position: "absolute",
+                      top: -10,
+                      right: 15,
+                      backgroundColor: "#FF3D00",
+                      borderRadius: 10,
+                      width: 20,
+                      height: 20,
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Text
+                      style={{
+                        color: "#FFF",
+                        fontSize: 10,
+                        fontWeight: "bold",
+                      }}
+                    >
                       {notificationCount}
                     </Text>
                   </View>
                 )}
                 <Text style={[styles.tabText, focused && styles.focusedText]}>
-                  Notifications
+                  notification
                 </Text>
               </View>
             ),
           }}
-        />
+        >
+          {() => <Notificate setNotificationCount={setNotificationCount} />}
+          {/* ✅ ส่งฟังก์ชันไปให้ Notificate */}
+        </BottomTab.Screen>
         <BottomTab.Screen
           name="setting"
           component={Setting}

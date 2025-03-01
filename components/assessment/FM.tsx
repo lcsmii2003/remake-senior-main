@@ -18,7 +18,7 @@ import {
 } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { Child } from "../page/HomePR";
+import { Child } from "../page/PR/HomePR";
 import { LoadingScreenBook, LoadingScreenPassAll } from "../LoadingScreen";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -267,11 +267,11 @@ export const FM: FC = () => {
     "paperscissor.png": require("../../assets/assessment/Device/paperscissor.png"),
     "split8.png": require("../../assets/assessment/Device/split8.png"),
     "squareonmiddle.png": require("../../assets/assessment/Device/squareonmiddle.png"),
-    "Scissorpaperline.png": require("../../assets/assessment/Device/Scissorpaperline.png"),
+    "scissorpaperline.png": require("../../assets/assessment/Device/Scissorpaperline.png"),
     "triangleonmiddle.png": require("../../assets/assessment/Device/triangleonmiddle.png"),
     "squaretrianglecircle.png": require("../../assets/assessment/Device/squaretrianglecircle.png"),
     "smallthing.png": require("../../assets/assessment/Device/smallthing.png"),
-    //"scissorpaperline.png": require("../../assets/assessment/Device/scissorpaperline.png"),
+    
   };
 
   const getImageSource = (imagePath: string): any => {
@@ -426,10 +426,10 @@ export const FM: FC = () => {
             ) : (
               <View style={styles.passAllAssessDetailcontainer}>
                 <View style={styles.headerPassAllTextContainer}>
-                  <Text style={styles.headerPassAllText}>Gross Motor (GM)</Text>
+                  <Text style={styles.headerPassAllText}>Fine Motor (FM)</Text>
                 </View>
                 <Text style={styles.titlePassAllText}>คุณได้ทำการประเมินในด้านนี้ครบทุกข้อแล้ว</Text>
-                <LoadingScreenPassAll/>
+                <LoadingScreenPassAll />
                 <Text style={styles.PassAllText}>สามารถทำการประเมินในด้านอื่น ๆ ได้เลยค่ะ/ครับ</Text>
               </View>
             )}
@@ -437,7 +437,7 @@ export const FM: FC = () => {
 
           {/* assessment result */}
           {loading ? (
-            <LoadingScreenBook />
+            <></>
           ) :
             assessmentDetails ? (
               <View style={styles.assessmentResult}>
@@ -481,7 +481,7 @@ export const FM: FC = () => {
                 </View>
               </View>
             ) : (
-             <></>
+              <></>
             )}
         </ScrollView>
       </View>
@@ -514,7 +514,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   ScrollView: {
-    // borderWidth: 2,
+    //borderWidth: 2,
   },
 
   topSection: {
@@ -530,7 +530,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     flexDirection: "row",
     justifyContent: "center",
-    // borderWidth: 2,
+    //borderWidth: 2,
   },
   containerSection: {
     // flex: 1,
@@ -781,12 +781,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-    // borderWidth: 1,
+    //borderWidth: 1,
   },
   deviceText: {
     fontSize: 14,
     fontWeight: "bold",
     marginBottom: 5,
+    //borderWidth:1,
   },
   deviceIcon: {
     width: "50%",
@@ -810,7 +811,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-    // borderWidth: 1,
+    //borderWidth: 1,
   },
   headerHowto: {
     fontSize: 14,

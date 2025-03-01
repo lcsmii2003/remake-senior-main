@@ -8,7 +8,7 @@ import {
   ImageBackground,
 } from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
-import {LoadingScreenCuteBaby} from "../components/LoadingScreen"
+import { LoadingScreenCuteBaby } from "../components/LoadingScreen"
 export const Welcome: FC = () => {
   const navigation = useNavigation<NavigationProp<any>>();
   const whenGotoRegister = () => {
@@ -31,20 +31,20 @@ export const Welcome: FC = () => {
           </View>
 
           <View style={styles.logo}>
-          <LoadingScreenCuteBaby/>
+            <LoadingScreenCuteBaby />
           </View>
 
           <View style={styles.bottomSection}>
-          <View style={styles.buttonContainer}>
-            <Pressable onPress={whenGotoLogin} style={styles.button}>
-              <Text style={styles.buttonText}>SIGN IN</Text>
-            </Pressable>
-          </View>
-          <View style={styles.buttonContainer}>
-            <Pressable onPress={whenGotoRegister} style={styles.button}>
-              <Text style={styles.buttonText}>SIGN UP</Text>
-            </Pressable>
-          </View>
+            <View style={styles.buttonContainer}>
+              <Pressable onPress={whenGotoLogin} style={styles.button}>
+                <Text style={styles.buttonText}>SIGN IN</Text>
+              </Pressable>
+            </View>
+            <View style={styles.buttonContainer}>
+              <Pressable onPress={whenGotoRegister} style={styles.button}>
+                <Text style={styles.buttonText}>SIGN UP</Text>
+              </Pressable>
+            </View>
           </View>
         </View>
       </ImageBackground>
@@ -59,57 +59,56 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    height:"80%",
-    width:"100%",
+    height: "80%",
+    width: "100%",
     paddingHorizontal: 16,
     justifyContent: "center",
-    alignItems:"center",
+    alignItems: "center",
     //borderWidth:1,
-    flexDirection:"column",
+    flexDirection: "column",
   },
   header: {
-    flexDirection:"column",
-    width:200,
-    height:"auto",
-    //borderWidth:1,
+    width: 200,
+    // height: "45%",
+    // borderWidth: 1,
     alignItems: "center",
-    position:"absolute",
-    top:270,
+    position: "absolute",
+    top: 240,
   },
-  
+
   logo: {
+    flex: 1,
     width: 100,
     height: 100,
     borderRadius: 50,
-    //borderWidth:1,
-    position:"absolute",
-    bottom:410,
-    
+    // borderWidth: 1,
+    position: "absolute",
+    bottom: 410,
   },
   title: {
-    // position:"absolute",
+    //position:"absolute",
     fontSize: 18,
     marginTop: 10,
     marginBottom: 5,
-    textAlign:"center",
+    textAlign: "center",
     //borderWidth:1,
   },
-    headerText:{
-      fontSize: 35,
-      fontWeight: "bold",
-      textAlign:"center",
-    },
-  bottomSection:{
-    width:"100%",
-    position:"absolute",
-    bottom:270,
+  headerText: {
+    fontSize: 35,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  bottomSection: {
+    width: "100%",
+    position: "absolute",
+    bottom: 270,
   },
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     marginTop: 15,
-   // borderWidth:1,
+    // borderWidth:1,
   },
   button: {
     width: "60%",

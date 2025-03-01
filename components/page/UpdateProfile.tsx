@@ -454,7 +454,7 @@ const styles = StyleSheet.create({
 
   midContainer:{
     position:"absolute",
-    top:200,
+    top:180,
     alignItems:"center",
     width:"100%",
     height:400,
@@ -478,7 +478,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     position: "absolute",
-    bottom: 230,
+    bottom: 160,
     flexDirection: "row", // เรียงปุ่มแนวนอน
     justifyContent: "space-evenly", // ระยะห่างเท่ากัน
     alignItems: "center",

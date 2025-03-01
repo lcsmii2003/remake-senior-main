@@ -93,6 +93,10 @@ export const Setting: FC = () => {
     navigation.navigate("updateprofile");
   };
 
+  const whenGotoHowToUse = () => {
+    navigation.navigate("howtouse");
+  };
+
   return (
     <ImageBackground
       source={require("../../assets/background/bg2.png")}
@@ -145,7 +149,7 @@ export const Setting: FC = () => {
             <Text style={styles.sectionText}>เกี่ยวกับเรา</Text>
             <Icon name="chevron-right" size={15} color="#000" />
           </Pressable>
-          <Pressable style={styles.sectionItem}>
+          <Pressable style={styles.sectionItem} onPress={whenGotoHowToUse}>
             <Text style={styles.sectionText}>คู่มือการใช้งาน</Text>
             <Icon name="chevron-right" size={15} color="#000" />
           </Pressable>
@@ -188,7 +192,7 @@ const styles = StyleSheet.create({
   },
   avatar: {
     width: "100%",
-    height: 140,
+    height: 120,
     borderRadius: 100,
     backgroundColor: "#E5E7EB",
     //borderWidth:1,
@@ -241,23 +245,23 @@ const styles = StyleSheet.create({
   sectionText: {
     fontSize: 14,
   },
-  downloadButton: {
-    width: "75%",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 20,
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    paddingVertical: 10,
-    left: 40,
-  },
-  downloadText: {
-    color: "#000",
-    marginRight: 10,
-    fontSize: 14,
-    fontWeight: "bold",
-  },
+  // downloadButton: {
+  //   width: "75%",
+  //   flexDirection: "row",
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  //   marginTop: 20,
+  //   backgroundColor: "#fff",
+  //   borderRadius: 10,
+  //   paddingVertical: 10,
+  //   left: 40,
+  // },
+  // downloadText: {
+  //   color: "#000",
+  //   marginRight: 10,
+  //   fontSize: 14,
+  //   fontWeight: "bold",
+  // },
 
   logoutButton: {
     width: "50%",
@@ -271,6 +275,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 15,
     elevation: 5,
+    position:"absolute",
+    bottom: 130,
     //borderWidth: 1,
   },
   logoutText: {

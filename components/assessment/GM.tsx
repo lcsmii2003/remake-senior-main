@@ -18,7 +18,7 @@ import {
 } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { Child } from "../page/HomePR";
+import { Child } from "../page/PR/HomePR";
 import { LoadingScreenAdvice, LoadingScreenBook, LoadingScreenPassAll, LoadingScreenSearchfile } from "../LoadingScreen";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -427,14 +427,14 @@ export const GM: FC = () => {
                 </View>
                 <Text style={styles.titlePassAllText}>คุณได้ทำการประเมินในด้านนี้ครบทุกข้อแล้ว</Text>
                 <LoadingScreenPassAll />
-                      <Text style={styles.PassAllText}>สามารถทำการประเมินในด้านอื่น ๆ ได้เลยค่ะ/ครับ</Text>
+                <Text style={styles.PassAllText}>สามารถทำการประเมินในด้านอื่น ๆ ได้เลยค่ะ/ครับ</Text>
               </View>
             )}
           </View>
 
           {/* assessment result */}
           {loading ? (
-            <LoadingScreenBook />
+            <></>
           ) :
             assessmentDetails ? (
               <View style={styles.assessmentResult}>
@@ -899,15 +899,15 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 
-  titlePassAllText:{
-    marginTop:20,
-    fontSize:16,
+  titlePassAllText: {
+    marginTop: 20,
+    fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",
   },
-  PassAllText:{
-    bottom:10,
-    fontSize:14,
+  PassAllText: {
+    bottom: 10,
+    fontSize: 14,
     //fontWeight: "bold",
     textAlign: "center",
   },
@@ -920,7 +920,7 @@ const styles = StyleSheet.create({
     //borderWidth: 1,
   },
   passAllResultcontainer: {
-    marginTop:10,
+    marginTop: 10,
     width: "100%",
     height: "20%",
     backgroundColor: "white",

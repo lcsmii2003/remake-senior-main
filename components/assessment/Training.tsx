@@ -18,7 +18,7 @@ import {
 } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { Child } from "../page/HomePR";
+import { Child } from "../page/PR/HomePR";
 import { AssessmentDetails } from "../assessment/GM";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -219,7 +219,7 @@ export const Training: FC = () => {
     "GM25.jpg": require("../../assets/assessment/GM/GM25.jpg"),
     "GM26.jpg": require("../../assets/assessment/GM/GM26.jpg"),
     "GM27.jpg": require("../../assets/assessment/GM/GM27.jpg"),
-    "GM28.jpg": require("../../assets/assessment/GM/GM28.jpg"), 
+    "GM28.jpg": require("../../assets/assessment/GM/GM28.jpg"),
 
     "FM1.jpg": require("../../assets/assessment/FM/FM1.jpg"),
     "FM2.jpg": require("../../assets/assessment/FM/FM2.jpg"),
@@ -353,16 +353,16 @@ export const Training: FC = () => {
     >
       {/* Top Section */}
       <View style={styles.topSection}>
-       <LinearGradient
-            key={child.child_id}
-            colors={
-              child.gender === "male"
-                ? ["#fff", "#E7F6FF","#D6ECFD"]  // ไล่สีฟ้าสำหรับเด็กผู้ชาย
-                :["#fff", "#FFDEE4","#FFBED6"]  // ไล่สีชมพูสำหรับเด็กผู้หญิง
-            }
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-                style={child.gender === "male" ? styles.profileCardBoy : styles.profileCardGirl}
+        <LinearGradient
+          key={child.child_id}
+          colors={
+            child.gender === "male"
+              ? ["#fff", "#E7F6FF", "#D6ECFD"]  // ไล่สีฟ้าสำหรับเด็กผู้ชาย
+              : ["#fff", "#FFDEE4", "#FFBED6"]  // ไล่สีชมพูสำหรับเด็กผู้หญิง
+          }
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={child.gender === "male" ? styles.profileCardBoy : styles.profileCardGirl}
         >
           <Image source={{ uri: child.childPic }} style={styles.profileIcon} />
           <View style={styles.profileInfo}>
@@ -378,88 +378,88 @@ export const Training: FC = () => {
 
       {/* Mid Section */}
       <View style={styles.midSection}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-      <View style={styles.containerSection}>
-        {/* assessment header */}
-        <View style={styles.headerTextContainer}>
-          <Text style={styles.headerText}>Gross Motor (GM)</Text>
-          <Text style={styles.headerAgeContainer}>
-            อายุพัฒนาการ:{" "}
-            {assessmentDetailsFromRoute?.age_range
-              ? calculateAgeRange(
-                  ...(assessmentDetailsFromRoute.age_range
-                    .split("-")
-                    .map(Number) as [number, number])
-                )
-              : "ข้อมูลไม่สมบูรณ์"}
-          </Text>
-        </View>
-        {/* assessment rank */}
-        {assessmentDetailsFromRoute && (
-          <>
-            <View style={styles.assessmentTop}>
-              <View style={styles.assessmentNumberContainer}>
-                <Text style={styles.assessmentNumber}>
-                  {assessmentDetailsFromRoute?.assessment_details_id}
-                </Text>
-              </View>
-
-              <View style={styles.assessmentTitleContainer}>
-                <Text style={styles.assessmentTitle}>
-                  {assessmentDetailsFromRoute.assessment_name}
-                </Text>
-              </View>
-            </View>
-            {/* assessment logo */}
-            {assessmentDetailsFromRoute?.assessment_image && (
-              <Image
-                source={getImageSource(
-                  assessmentDetailsFromRoute.assessment_image
-                )}
-                style={styles.assessmentLogo}
-              />
-            )}
-
-            {/* assessment device */}
-            {assessmentDetailsFromRoute &&
-              (assessmentDetailsFromRoute.training_method !== "none" ||
-                assessmentDetailsFromRoute.training__device_image !== "none" ||
-                assessmentDetailsFromRoute.training_device_name !== "none") &&
-              renderAssessmentDevice()}
-
-            {/* assessment how to */}
-            <View style={styles.assessmentHowto}>
-              <Text style={styles.headerHowto}>วิธีฝึกทักษะ</Text>
-              <Text style={styles.howtoText}>
-                {assessmentDetailsFromRoute.training_method}
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.containerSection}>
+            {/* assessment header */}
+            <View style={styles.headerTextContainer}>
+              <Text style={styles.headerText}>Gross Motor (GM)</Text>
+              <Text style={styles.headerAgeContainer}>
+                อายุพัฒนาการ:{" "}
+                {assessmentDetailsFromRoute?.age_range
+                  ? calculateAgeRange(
+                    ...(assessmentDetailsFromRoute.age_range
+                      .split("-")
+                      .map(Number) as [number, number])
+                  )
+                  : "ข้อมูลไม่สมบูรณ์"}
               </Text>
             </View>
-            {/* assessment result */}
-            <View style={styles.assessmentResult}>
-              <Text style={styles.resultText}>
-                ให้ทำการฝึกตามวิธีทักษะข้างต้น และทำแบบประเมินใหม่อีกครั้ง ภายใน
-                1-2 สัปดาห์
-              </Text>
+            {/* assessment rank */}
+            {assessmentDetailsFromRoute && (
+              <>
+                <View style={styles.assessmentTop}>
+                  <View style={styles.assessmentNumberContainer}>
+                    <Text style={styles.assessmentNumber}>
+                      {assessmentDetailsFromRoute?.assessment_details_id}
+                    </Text>
+                  </View>
 
-              <View style={styles.resultButtonCantainer}>
-                <Pressable
-                  style={styles.tryAgainButton}
-                  onPress={() => {
-                    whenGoBack();
-                  }}
-                >
+                  <View style={styles.assessmentTitleContainer}>
+                    <Text style={styles.assessmentTitle}>
+                      {assessmentDetailsFromRoute.assessment_name}
+                    </Text>
+                  </View>
+                </View>
+                {/* assessment logo */}
+                {assessmentDetailsFromRoute?.assessment_image && (
                   <Image
-                    source={require("../../assets/icons/tryAgain.png")}
-                    style={styles.tryAgainIcon}
+                    source={getImageSource(
+                      assessmentDetailsFromRoute.assessment_image
+                    )}
+                    style={styles.assessmentLogo}
                   />
-                  <Text style={styles.tryAgainText}>ประเมินใหม่อีกครั้ง</Text>
-                </Pressable>
-              </View>
-            </View>
-          </>
-        )}
-      </View>
-      </ScrollView>
+                )}
+
+                {/* assessment device */}
+                {assessmentDetailsFromRoute &&
+                  (assessmentDetailsFromRoute.training_method !== "none" ||
+                    assessmentDetailsFromRoute.training__device_image !== "none" ||
+                    assessmentDetailsFromRoute.training_device_name !== "none") &&
+                  renderAssessmentDevice()}
+
+                {/* assessment how to */}
+                <View style={styles.assessmentHowto}>
+                  <Text style={styles.headerHowto}>วิธีฝึกทักษะ</Text>
+                  <Text style={styles.howtoText}>
+                    {assessmentDetailsFromRoute.training_method}
+                  </Text>
+                </View>
+                {/* assessment result */}
+                <View style={styles.assessmentResult}>
+                  <Text style={styles.resultText}>
+                    ให้ทำการฝึกตามวิธีทักษะข้างต้น และทำแบบประเมินใหม่อีกครั้ง ภายใน
+                    1-2 สัปดาห์
+                  </Text>
+
+                  <View style={styles.resultButtonCantainer}>
+                    <Pressable
+                      style={styles.tryAgainButton}
+                      onPress={() => {
+                        whenGoBack();
+                      }}
+                    >
+                      <Image
+                        source={require("../../assets/icons/tryAgain.png")}
+                        style={styles.tryAgainIcon}
+                      />
+                      <Text style={styles.tryAgainText}>ประเมินใหม่อีกครั้ง</Text>
+                    </Pressable>
+                  </View>
+                </View>
+              </>
+            )}
+          </View>
+        </ScrollView>
       </View>
 
       {/* Bottom Section */}
@@ -508,8 +508,8 @@ const styles = StyleSheet.create({
     minHeight: 300,
     //maxHeight:485,
     marginTop: 5,
-    marginHorizontal:8,
-    marginBottom:10,
+    marginHorizontal: 8,
+    marginBottom: 10,
     paddingBottom: 5,
     borderRadius: 20,
     shadowColor: "#c5c5c5",
@@ -628,7 +628,7 @@ const styles = StyleSheet.create({
     color: "#FFF",
     padding: 2,
   },
-  
+
   backIcon: {
     width: 35,
     height: 35,
@@ -731,7 +731,7 @@ const styles = StyleSheet.create({
     marginRight: "auto",
     textAlign: "center",
     //borderWidth: 2,
-    },
+  },
 
   // ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -739,7 +739,7 @@ const styles = StyleSheet.create({
     width: 90,
     height: 90,
     resizeMode: "cover",
-    borderRadius:15,
+    borderRadius: 15,
     // borderWidth: 1,
   },
 
@@ -825,7 +825,7 @@ const styles = StyleSheet.create({
   resultText: {
     fontSize: 13,
     textAlign: "center",
-    fontWeight:"bold",
+    fontWeight: "bold",
     marginVertical: 5,
     paddingHorizontal: 20,
   },
@@ -846,7 +846,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "center",
-    marginVertical:10,
+    marginVertical: 10,
   },
   tryAgainText: {
     fontSize: 13,

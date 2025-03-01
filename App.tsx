@@ -16,9 +16,9 @@ import { Welcome } from "./components/Welcome";
 import { Privacy } from "./components/Privacy";
 import { HomeAD } from "./components/page/HomeAD";
 import { SplashScreen } from "./components/SplashScreen";
-import { AddChild } from "./components/page/Addchild";
-import { ChooseChild } from "./components/page/ChooseChild";
-import { Assessment } from "./components/page/Assessment";
+import { AddChild } from "./components/page/PR/Addchild";
+import { ChooseChild } from "./components/page/PR/ChooseChild";
+import { Assessment } from "./components/page/PR/Assessment";
 import { GM } from "./components/assessment/GM";
 import { FM } from "./components/assessment/FM";
 import { RL } from "./components/assessment/RL";
@@ -30,8 +30,10 @@ import { AddRoom } from "./components/page/AddRoom";
 import { AddchildSP } from "./components/page/AddchildSP";
 import { ChooseRoom } from "./components/page/ChooseRoom";
 import { ChooseChildSP } from "./components/page/ChooseChildSP";
-import {ChildDetail} from "./components/page/ChildDetail";
-import {EditChild} from "./components/page/EditChild";
+import { ChildDetail } from "./components/page/PR/ChildDetail";
+import { EditChild } from "./components/page/PR/EditChild";
+import { HowToUse } from "./components/page/PR/Howtouse";
+
 
 
 import { HospitalDetailScreen } from "./components/HospitalDetailScreen";
@@ -82,6 +84,7 @@ export default function App() {
           <Stack.Screen name="updateprofile" component={UpdateProfile} />
           <Stack.Screen name="childdetail" component={ChildDetail} />
           <Stack.Screen name="editchild" component={EditChild} />
+          <Stack.Screen name="howtouse" component={HowToUse} />
 
 
 
